@@ -168,12 +168,40 @@ function HeroParticles() {
   );
 }
 
+function HeroDotPattern() {
+  return (
+    <>
+      {/* Top Left Dots */}
+      <div
+        className="absolute top-0 left-0 w-1/2 h-1/2 md:w-[600px] md:h-[600px] pointer-events-none opacity-30 z-0"
+        style={{
+          backgroundImage: 'radial-gradient(#f97316 2px, transparent 2px)',
+          backgroundSize: '40px 40px',
+          maskImage: 'radial-gradient(circle at top left, black, transparent 70%)',
+          WebkitMaskImage: 'radial-gradient(circle at top left, black, transparent 70%)'
+        }}
+      />
+      {/* Bottom Right Dots */}
+      <div
+        className="absolute bottom-0 right-0 w-1/2 h-1/2 md:w-[600px] md:h-[600px] pointer-events-none opacity-20 z-0"
+        style={{
+          backgroundImage: 'radial-gradient(#ffffff 2px, transparent 2px)',
+          backgroundSize: '30px 30px',
+          maskImage: 'radial-gradient(circle at bottom right, black, transparent 60%)',
+          WebkitMaskImage: 'radial-gradient(circle at bottom right, black, transparent 60%)'
+        }}
+      />
+    </>
+  );
+}
+
 function HeroSection() {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 1000], [0, 150]);
 
   return (
     <section className="relative pt-32 pb-16 px-4 overflow-hidden">
+      <HeroDotPattern />
       <HeroParticles />
       <motion.div
         style={{ y: y1 }}
