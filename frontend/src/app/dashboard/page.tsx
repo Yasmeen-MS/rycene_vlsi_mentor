@@ -196,7 +196,7 @@ function DashboardContent() {
             {/* ── Stat cards ── */}
             <div className="grid grid-cols-3 gap-6">
 
-                <Card className="rounded-3xl border border-white/5 bg-orange-950/20 backdrop-blur-2xl shadow-2xl relative overflow-hidden group hover:border-orange-500/30 transition-all duration-500">
+                <Card className="rounded-3xl border border-white/5 bg-orange-950/80 backdrop-blur-md shadow-2xl relative overflow-hidden group hover:border-orange-500/30 transition-all duration-500">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500/0 via-orange-500/50 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-3">
@@ -213,7 +213,7 @@ function DashboardContent() {
                     </CardContent>
                 </Card>
 
-                <Card className="rounded-3xl border border-white/5 bg-red-950/20 backdrop-blur-2xl shadow-2xl relative overflow-hidden group hover:border-red-500/30 transition-all duration-500">
+                <Card className="rounded-3xl border border-white/5 bg-red-950/80 backdrop-blur-md shadow-2xl relative overflow-hidden group hover:border-red-500/30 transition-all duration-500">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/0 via-red-500/50 to-red-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-3">
@@ -234,7 +234,7 @@ function DashboardContent() {
                     </CardContent>
                 </Card>
 
-                <Card className="rounded-3xl border border-white/5 bg-amber-950/20 backdrop-blur-2xl shadow-2xl relative overflow-hidden group hover:border-amber-500/30 transition-all duration-500">
+                <Card className="rounded-3xl border border-white/5 bg-amber-950/80 backdrop-blur-md shadow-2xl relative overflow-hidden group hover:border-amber-500/30 transition-all duration-500">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500/0 via-amber-500/50 to-amber-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-3">
@@ -258,7 +258,7 @@ function DashboardContent() {
 
                 {/* Skill Radar */}
                 <div className="col-span-4">
-                    <Card className="rounded-3xl border border-white/5 bg-pink-950/20 backdrop-blur-2xl shadow-2xl h-full overflow-hidden relative group hover:border-pink-500/30 transition-all duration-500">
+                    <Card className="rounded-3xl border border-white/5 bg-pink-950/80 backdrop-blur-md shadow-2xl h-full overflow-hidden relative group hover:border-pink-500/30 transition-all duration-500">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
                         <CardHeader className="pb-0 pt-5 px-6">
                             <CardTitle className="text-sm font-bold text-white uppercase tracking-widest leading-loose">Skill Profile</CardTitle>
@@ -271,7 +271,7 @@ function DashboardContent() {
 
                 {/* Score Trend */}
                 <div className="col-span-8">
-                    <Card className="rounded-3xl border border-white/5 bg-violet-950/20 backdrop-blur-2xl shadow-2xl h-full overflow-hidden relative group hover:border-violet-500/30 transition-all duration-500">
+                    <Card className="rounded-3xl border border-white/5 bg-violet-950/80 backdrop-blur-md shadow-2xl h-full overflow-hidden relative group hover:border-violet-500/30 transition-all duration-500">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
                         <CardHeader className="pb-0 pt-5 px-6">
                             <div className="flex items-center justify-between">
@@ -287,7 +287,7 @@ function DashboardContent() {
 
                 {/* ── Study Plan ── */}
                 <div className="col-span-12">
-                    <Card className="rounded-3xl border border-white/5 bg-blue-950/20 backdrop-blur-2xl shadow-2xl relative overflow-hidden group hover:border-blue-500/30 transition-all duration-500">
+                    <Card className="rounded-3xl border border-white/5 bg-blue-950/80 backdrop-blur-md shadow-2xl relative overflow-hidden group hover:border-blue-500/30 transition-all duration-500">
                         <CardHeader className="pb-2">
                             <div className="flex items-center justify-between">
                                 <CardTitle className="text-base font-semibold text-white">Study Plan</CardTitle>
@@ -420,7 +420,7 @@ function DashboardContent() {
 
                 {/* ── Quick Tutor ── */}
                 <div className="col-span-12">
-                    <Card className="rounded-3xl border border-white/5 bg-emerald-950/20 backdrop-blur-2xl shadow-2xl relative overflow-hidden group hover:border-emerald-500/30 transition-all duration-500">
+                    <Card className="rounded-3xl border border-white/5 bg-emerald-950/80 backdrop-blur-md shadow-2xl relative overflow-hidden group hover:border-emerald-500/30 transition-all duration-500">
                         <CardHeader className="pb-2">
                             <CardTitle className="text-base font-semibold text-white">Quick Tutor</CardTitle>
                         </CardHeader>
