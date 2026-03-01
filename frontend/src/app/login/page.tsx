@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 type Mode = "login" | "register";
 
@@ -61,10 +62,53 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black font-sans">
-            {/* Ambient Background Glows */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-600/20 rounded-full blur-[120px] pointer-events-none opacity-50 animate-pulse" />
-            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-red-600/10 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-amber-600/10 rounded-full blur-[120px] pointer-events-none" />
+            {/* Spline-like Fluid Ambient Background Glows */}
+
+            {/* Main Orange Orb */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{
+                    opacity: 0.5,
+                    scale: [1, 1.2, 1],
+                    x: ["-50%", "-40%", "-60%", "-50%"],
+                    y: ["-50%", "-60%", "-40%", "-50%"],
+                }}
+                transition={{
+                    duration: 15,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+                className="absolute top-1/2 left-1/2 w-[700px] h-[700px] bg-orange-600/20 rounded-full blur-[120px] pointer-events-none"
+            />
+
+            {/* Red Floating Canvas Element */}
+            <motion.div
+                animate={{
+                    x: [0, 100, -50, 0],
+                    y: [0, -50, 100, 0],
+                    rotate: [0, 90, -90, 0]
+                }}
+                transition={{
+                    duration: 25,
+                    repeat: Infinity,
+                    ease: "linear"
+                }}
+                className="absolute -top-20 -right-20 w-[600px] h-[600px] bg-red-600/10 rounded-[40%] blur-[100px] pointer-events-none"
+            />
+
+            {/* Amber Ascent Element */}
+            <motion.div
+                animate={{
+                    x: [0, -100, 50, 0],
+                    y: [0, 100, -100, 0],
+                }}
+                transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+                className="absolute -bottom-20 -left-20 w-[500px] h-[500px] bg-amber-600/15 rounded-full blur-[100px] pointer-events-none"
+            />
 
             <div className="w-full max-w-md relative z-10 px-4">
                 {/* Brand mark */}
@@ -76,7 +120,12 @@ export default function LoginPage() {
                     <p className="text-sm text-zinc-400 mt-1 font-medium">VLSI Mentor Platform</p>
                 </div>
 
-                <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="relative rounded-3xl p-[1px] overflow-hidden group shadow-[0_0_50px_rgba(249,115,22,0.15)]"
+                >
                     <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#f97316_100%)] animate-[spin_4s_linear_infinite]" />
                     <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-zinc-950/80 backdrop-blur-3xl relative z-10 transition-all duration-500 pt-2 pb-6 px-4">
                         <CardHeader className="pb-6 text-center">
@@ -165,7 +214,7 @@ export default function LoginPage() {
                             </form>
                         </CardContent>
                     </Card>
-                </div>
+                </motion.div>
             </div>
         </div>
     );
