@@ -54,16 +54,85 @@ Tell us your target role and your interview timeline. Rycene analyzes your weak 
 
 ---
 
-## 🛠️ Architecture
+## 🛠️ System Architecture
 
-Rycene is built on a highly scalable, serverless architecture designed for speed and security:
+Rycene operates on a highly secure, serverless architecture. All AI logic executes securely within Firebase Cloud Functions, completely isolating the Gemini API keys from the client while validating inputs and outputs via Zod schemas.
 
-- **Frontend:** Next.js 14 App Router (React), styled with Tailwind CSS and Framer Motion for mesmerizing UI micro-interactions and glowing hardware logic gates.
-- **Backend:** Firebase (Authentication, Firestore DB).
-- **Compute:** Firebase Cloud Functions (Node.js). Securely handles all Gemini generative tasks, enforcing strict JSON-schema responses and performing atomic database transactions.
-- **AI Core:** Google DeepMind's Gemini 1.5 Flash API.
+```mermaid
+graph TD
+    %% Styling
+    classDef client fill:#09090b,stroke:#a855f7,stroke-width:2px,color:#fff;
+    classDef auth fill:#f97316,stroke:#c2410c,stroke-width:2px,color:#fff;
+    classDef db fill:#3b82f6,stroke:#2563eb,stroke-width:2px,color:#fff;
+    classDef serverless fill:#10b981,stroke:#059669,stroke-width:2px,color:#fff;
+    classDef ai fill:#ec4899,stroke:#db2777,stroke-width:2px,color:#fff;
+
+    %% Client Layer
+    subgraph Frontend [Next.js Vercel Client]
+        UI[Glassmorphism UI]:::client
+        State[React State & Hooks]:::client
+        Editor[Monaco Code Editor]:::client
+    end
+
+    %% Auth Layer
+    Auth((Firebase Auth)):::auth
+
+    %% Database Layer
+    subgraph Firestore Data Lake
+        UsersDB[(Users Context)]:::db
+        SubmissionsDB[(Evaluation History)]:::db
+        StudyPlansDB[(Adaptive Roadmaps)]:::db
+    end
+
+    %% Serverless Execution
+    subgraph Application Logic [Firebase Cloud Functions v2]
+        evalFn([evaluateCode.ts]):::serverless
+        tutorFn([getTutorResponse.ts]):::serverless
+        interviewFn([runInterview.ts]):::serverless
+        planFn([generateStudyPlan.ts]):::serverless
+        engine([skillEngine.ts / EWA Math]):::serverless
+    end
+
+    %% AI Core
+    Gemini{Google Gemini 1.5 Flash API}:::ai
+
+    %% Connections
+    UI -->|JWT Auth| Auth
+    UI -.->|onSnapshot Realtime Sync| UsersDB
+    UI -.->|onSnapshot Realtime Sync| StudyPlansDB
+    
+    UI -->|HTTPS Callable| evalFn
+    UI -->|HTTPS Callable| tutorFn
+    UI -->|HTTPS Callable| interviewFn
+    UI -->|HTTPS Callable| planFn
+
+    evalFn <-->|Validates & Parses| engine
+    interviewFn <-->|Validates & Parses| engine
+
+    evalFn -->|Strict JSON Prompt| Gemini
+    tutorFn -->|Strict JSON Prompt| Gemini
+    interviewFn -->|Strict JSON Prompt| Gemini
+    planFn -->|Strict JSON Prompt| Gemini
+
+    engine -->|Atomic Transaction Writes| UsersDB
+    evalFn -->|Records| SubmissionsDB
+    interviewFn -->|Records| SubmissionsDB
+```
 
 > *For a deep dive into how our Cloud Functions and Exponential Moving Average algorithms work, see the internal Architecture Documentation.*
+
+---
+
+## 💻 Tech Stack Deep Dive
+
+| Layer | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Frontend** | React 18, Next.js (App Router), Tailwind CSS | Highly optimized, server-rendered views with rapid dark-mode styling. |
+| **Components** | Radix UI, Framer Motion, Recharts, Lucide | Accessible primitive components, fluid animations, and complex data visualization. |
+| **Backend** | Firebase Functions (Node 18), Admin SDK | Secure edge execution, atomic database transactions, and API orchestration. |
+| **Database** | Cloud Firestore | Highly-scalable NoSQL document database with real-time websocket synchronization. |
+| **Intelligence** | Google Gemini 1.5 Flash | The primary reasoning engine, forced into strict JSON-mode via engineered system instructions. |
+| **Validation** | Zod | End-to-end schema validation ensuring the AI outputs perfectly align with database models. |
 
 ---
 
