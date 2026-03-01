@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 
@@ -13,216 +13,298 @@ import type { Variants } from "framer-motion";
 // ─── Animation Variants ──────────────────────────────────────────────────────
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: "easeOut" as const },
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }, // Apple-like smooth spring easing
   },
 };
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
+    }
+  }
+};
+
+// ─── Utilities ────────────────────────────────────────────────────────────────
+
+function AnimatedCounter({ target, label }: { target: string, label: string }) {
+  const numericTarget = parseInt(target.replace(/[^0-9]/g, ""));
+  const suffix = target.replace(/[0-9]/g, "");
+
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  useEffect(() => {
+    if (!isInView) return;
+    let current = 0;
+    const steps = 40;
+    const increment = numericTarget / steps;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= numericTarget) {
+        setCount(numericTarget);
+        clearInterval(timer);
+      } else {
+        setCount(Math.round(current));
+      }
+    }, 30);
+    return () => clearInterval(timer);
+  }, [numericTarget, isInView]);
+
+  return (
+    <div ref={ref} className="group relative">
+      <div className="absolute -inset-4 bg-gradient-to-r from-orange-500/0 via-orange-500/5 to-amber-500/0 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+      <div className="relative">
+        <div className="text-3xl md:text-4xl font-black text-white tracking-tight mb-1">
+          {count}{suffix}
+        </div>
+        <div className="text-xs font-bold text-orange-500/80 uppercase tracking-widest">{label}</div>
+      </div>
+    </div>
+  );
+}
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function Navbar() {
+  const { scrollY } = useScroll();
+  const bgOpacity = useTransform(scrollY, [0, 50], [0, 0.85]);
+  const borderColor = useTransform(scrollY, [0, 50], ["rgba(255,255,255,0)", "rgba(255,255,255,0.08)"]);
+  const shadowOpacity = useTransform(scrollY, [0, 50], ["0px 0px 0px rgba(0,0,0,0)", "0px 8px 32px rgba(0,0,0,0.4)"]);
+
   return (
-    <header className="fixed top-0 inset-x-0 z-50 flex justify-center pt-5 px-4">
-      <nav className="w-full max-w-6xl flex items-center justify-between bg-zinc-900/80 backdrop-blur-xl border border-white/10 rounded-2xl px-6 py-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+    <header className="fixed top-0 inset-x-0 z-50 flex justify-center pt-6 px-4 pointer-events-none">
+      <motion.nav
+        style={{
+          backgroundColor: useTransform(bgOpacity, v => `rgba(24, 24, 27, ${v})`),
+          borderColor,
+          boxShadow: shadowOpacity
+        }}
+        className="w-full max-w-6xl flex items-center justify-between backdrop-blur-xl border rounded-[20px] px-6 py-3.5 pointer-events-auto transition-colors duration-500"
+      >
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg flex items-center justify-center shadow-[0_0_14px_rgba(249,115,22,0.4)] group-hover:shadow-[0_0_20px_rgba(249,115,22,0.6)] transition-all duration-300">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center shadow-[0_0_14px_rgba(249,115,22,0.4)] group-hover:shadow-[0_0_24px_rgba(249,115,22,0.6)] group-hover:scale-105 transition-all duration-300">
             <span className="text-sm leading-none">🧠</span>
           </div>
-          <span className="text-white font-bold tracking-wide text-sm">Rycene AI</span>
+          <span className="text-white font-bold tracking-wide text-[15px]">Rycene AI</span>
         </Link>
 
         {/* Nav Links */}
-        <div className="hidden md:flex items-center gap-7 text-sm text-zinc-400 font-medium">
-          <a href="#features" className="hover:text-white transition-colors duration-200">Features</a>
-          <a href="#how-it-works" className="hover:text-white transition-colors duration-200">How It Works</a>
-          <a href="#impact" className="hover:text-white transition-colors duration-200">Impact</a>
+        <div className="hidden md:flex items-center gap-8 text-[14px] text-zinc-400 font-medium">
+          {["Features", "How It Works", "Impact"].map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase().replace(/ /g, '-')}`}
+              className="relative hover:text-white transition-colors duration-300 group py-2"
+            >
+              {item}
+              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-orange-500 to-amber-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 ease-out rounded-full" />
+            </a>
+          ))}
         </div>
 
         {/* CTAs */}
-        <div className="flex items-center gap-3">
-          <Link href="/login" className="hidden sm:inline-flex text-sm font-medium text-zinc-300 hover:text-white transition-colors duration-200 px-3 py-1.5">
+        <div className="flex items-center gap-4">
+          <Link href="/login" className="hidden sm:inline-flex text-[14px] font-medium text-zinc-300 hover:text-white transition-colors duration-300 px-2 py-2">
             Log in
           </Link>
-          <Link
-            href="/login"
-            className="inline-flex items-center gap-1.5 text-sm font-bold text-black bg-gradient-to-r from-orange-500 to-amber-400 hover:from-orange-400 hover:to-amber-300 px-5 py-2 rounded-xl shadow-[0_0_18px_rgba(249,115,22,0.3)] hover:shadow-[0_0_28px_rgba(249,115,22,0.5)] transition-all duration-300"
-          >
-            Get Started →
-          </Link>
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              href="/login"
+              className="relative inline-flex items-center justify-center gap-2 text-[14px] font-bold text-black bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-2.5 rounded-xl shadow-[0_4px_14px_rgba(249,115,22,0.4)] hover:shadow-[0_6px_24px_rgba(249,115,22,0.6)] transition-all duration-300 overflow-hidden group"
+            >
+              <span className="relative z-10 flex items-center gap-1.5">
+                Get Started <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+              </span>
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+            </Link>
+          </motion.div>
         </div>
-      </nav>
+      </motion.nav>
     </header>
   );
 }
 
 function HeroSection() {
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 1000], [0, 150]);
+  const opacity1 = useTransform(scrollY, [0, 400], [1, 0]);
+
   return (
-    <section className="pt-40 pb-24 px-4">
-      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+    <section className="relative pt-44 pb-32 px-4 overflow-hidden">
+      <motion.div
+        style={{ y: y1, opacity: opacity1 }}
+        className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-8 items-center"
+      >
         {/* Left Text */}
-        <div className="space-y-8">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-          >
-            <span className="inline-flex items-center gap-1.5 border border-zinc-700 text-zinc-400 text-xs font-medium px-3 py-1 rounded-md tracking-wide">
-              <span className="w-1.5 h-1.5 rounded-full bg-orange-500 inline-block" />
-              AI-Powered VLSI Education Platform
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="space-y-8 relative z-10"
+        >
+          <motion.div variants={fadeUp}>
+            <span className="inline-flex items-center gap-2 border border-orange-500/20 bg-orange-500/5 text-orange-400/90 text-[11px] font-bold px-3.5 py-1.5 rounded-full tracking-widest backdrop-blur-sm shadow-[0_0_20px_rgba(249,115,22,0.1)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.8)]" />
+              AI-POWERED VLSI EDUCATION
             </span>
           </motion.div>
 
           <motion.h1
-            initial="hidden"
-            animate="visible"
-            custom={0.1}
             variants={fadeUp}
-            className="text-5xl lg:text-6xl font-black text-white leading-[1.07] tracking-tight"
+            className="text-[3.5rem] lg:text-[4.5rem] font-black text-white leading-[1.05] tracking-tight"
           >
             Master{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-amber-400 to-orange-300">
-              VLSI Design
-            </span>{" "}
-            With AI Intelligence
+            <span className="relative inline-block">
+              <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-amber-400 to-orange-500">
+                VLSI Design
+              </span>
+              <span className="absolute inset-x-0 bottom-2 h-3 bg-orange-500/20 blur-md -z-10" />
+            </span>
+            <br />With AI Intelligence
           </motion.h1>
 
           <motion.p
-            initial="hidden"
-            animate="visible"
-            custom={0.2}
             variants={fadeUp}
-            className="text-zinc-400 text-lg leading-relaxed max-w-lg"
+            className="text-zinc-400 text-lg lg:text-xl leading-relaxed max-w-lg font-medium"
           >
-            Rycene AI closes the gap between academic learning and semiconductor industry readiness. Get personalized mentorship, real-time code evaluation, and adaptive study plans powered by Gemini AI.
+            Rycene AI closes the gap between academic learning and semiconductor industry readiness. Access personalized mentorship, real-time code evaluation, and adaptive study plans powered by Gemini AI.
           </motion.p>
-
-          {/* Stats Row */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            custom={0.3}
-            variants={fadeUp}
-            className="flex flex-wrap gap-8 pt-2 pb-2 border-t border-b border-white/8"
-          >
-            {[
-              { stat: "6+", label: "VLSI Domains" },
-              { stat: "10K+", label: "AI Evaluations" },
-              { stat: "24/7", label: "AI Tutor" },
-            ].map(({ stat, label }) => (
-              <div key={label}>
-                <div className="text-2xl font-black text-white">{stat}</div>
-                <div className="text-xs font-bold text-orange-400 uppercase tracking-widest mt-0.5">{label}</div>
-              </div>
-            ))}
-          </motion.div>
 
           {/* CTA Buttons */}
           <motion.div
-            initial="hidden"
-            animate="visible"
-            custom={0.4}
             variants={fadeUp}
-            className="flex flex-wrap gap-3 pt-1"
+            className="flex flex-wrap items-center gap-4 pt-4"
           >
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-2 text-sm font-bold text-black bg-gradient-to-r from-orange-500 to-amber-400 hover:from-orange-400 hover:to-amber-300 px-7 py-3.5 rounded-xl shadow-[0_0_24px_rgba(249,115,22,0.4)] hover:shadow-[0_0_36px_rgba(249,115,22,0.6)] transition-all duration-300"
-            >
-              Get Started Free →
-            </Link>
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-2 text-sm font-bold text-zinc-300 border border-white/15 hover:border-white/30 hover:text-white hover:bg-white/5 px-7 py-3.5 rounded-xl transition-all duration-300"
-            >
-              Sign In
-            </Link>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+              <Link
+                href="/login"
+                className="relative inline-flex items-center justify-center gap-2 text-base font-bold text-black bg-gradient-to-r from-orange-500 to-amber-400 px-8 py-4 rounded-2xl shadow-[0_8px_32px_rgba(249,115,22,0.3)] hover:shadow-[0_12px_48px_rgba(249,115,22,0.5)] transition-all duration-300 overflow-hidden group"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  Start Learning Free <span className="group-hover:translate-x-1.5 transition-transform duration-300 ease-out">→</span>
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+              <Link
+                href="/login"
+                className="inline-flex items-center justify-center gap-2 text-base font-bold text-zinc-300 bg-zinc-900/50 hover:bg-zinc-800 border border-white/10 hover:border-white/20 px-8 py-4 rounded-2xl transition-all duration-300 backdrop-blur-sm"
+              >
+                Sign In
+              </Link>
+            </motion.div>
           </motion.div>
-        </div>
+
+          {/* Stats Row */}
+          <motion.div
+            variants={fadeUp}
+            className="flex items-center gap-12 pt-8 mt-4 border-t border-white/5"
+          >
+            <AnimatedCounter target="6+" label="VLSI Domains" />
+            <AnimatedCounter target="10K+" label="Evaluations" />
+            <AnimatedCounter target="24/7" label="AI Tutor" />
+          </motion.div>
+        </motion.div>
 
         {/* Right Illustration */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="relative w-full aspect-square max-w-lg mx-auto"
+          initial={{ opacity: 0, scale: 0.95, rotateY: -15, rotateX: 5 }}
+          animate={{ opacity: 1, scale: 1, rotateY: 0, rotateX: 0 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          className="relative w-full aspect-square max-w-[500px] mx-auto lg:ml-auto"
+          style={{ perspective: 1000 }}
         >
-          {/* Glow ring behind image */}
-          <div className="absolute inset-6 bg-gradient-to-br from-orange-500/25 via-amber-500/15 to-transparent rounded-full blur-3xl" />
-          <div className="relative z-10 w-full h-full rounded-3xl overflow-hidden border border-white/10 bg-zinc-900/60 backdrop-blur-sm shadow-[0_32px_64px_rgba(0,0,0,0.5)]">
+          <motion.div
+            animate={{
+              y: [-10, 10, -10],
+              rotateZ: [-1, 1, -1]
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 6,
+              ease: "easeInOut"
+            }}
+            className="relative w-full h-full rounded-[2rem] overflow-hidden border border-white/10 bg-zinc-950 shadow-[0_0_80px_rgba(249,115,22,0.15)] group"
+          >
+            {/* Glow ring behind image */}
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-amber-500/10 to-transparent blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
+
             <Image
               src="/hero.png"
               alt="VLSI AI Platform Visualization"
               fill
-              className="object-cover object-center"
+              className="object-cover object-center scale-105 group-hover:scale-110 transition-transform duration-1000 ease-out"
               priority
             />
-            {/* Overlay gradient to blend into bg */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-          </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+            <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10" />
+          </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }
 
 function ProblemSection() {
   return (
-    <section className="py-24 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-28 px-4 relative">
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
-          custom={0}
-          variants={fadeUp}
-          className="text-center max-w-2xl mx-auto mb-16"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="text-center max-w-3xl mx-auto mb-20"
         >
-          <div className="text-xs font-bold text-orange-500 uppercase tracking-widest mb-4">The Problem</div>
-          <h2 className="text-3xl lg:text-4xl font-black text-white mb-5">
-            The Industry Readiness Gap Is Real
-          </h2>
-          <p className="text-zinc-400 text-base leading-relaxed">
-            Engineering curricula teach theory. Semiconductor companies need engineers who can write production-grade RTL, pass timing closures, and debug DFT-compliant designs — on day one. Most graduates are 12–18 months behind.
-          </p>
+          <motion.div variants={fadeUp} className="text-[11px] font-bold text-orange-500 uppercase tracking-widest mb-4">The Challenge</motion.div>
+          <motion.h2 variants={fadeUp} className="text-4xl lg:text-5xl font-black text-white mb-6 tracking-tight">
+            The Industry Readiness Gap
+          </motion.h2>
+          <motion.p variants={fadeUp} className="text-zinc-400 text-lg leading-relaxed">
+            Engineering curricula teach pure theory. Semiconductor companies demand engineers who can write production RTL, close timing, and debug DFT issues on day one. Most graduates arrive 12–18 months behind standard requirements.
+          </motion.p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-5">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={staggerContainer}
+          className="grid md:grid-cols-3 gap-6"
+        >
           {[
-            {
-              icon: "📉",
-              title: "Skills Mismatch",
-              desc: "University coursework covers 30% of what VLSI hiring managers test in first-round interviews.",
-            },
-            {
-              icon: "⏱️",
-              title: "No Real-Time Feedback",
-              desc: "Static textbooks and passive lectures offer no adaptive correction loop for skill development.",
-            },
-            {
-              icon: "🚪",
-              title: "High Entry Barrier",
-              desc: "Premium mentorship and industry coaching costs thousands, out of reach for most students.",
-            },
-          ].map(({ icon, title, desc }, i) => (
+            { icon: "📉", title: "Skills Mismatch", desc: "University coursework covers barely 30% of what VLSI hiring managers actually test in first-round technical interviews." },
+            { icon: "⏱️", title: "No Real-Time Feedback", desc: "Static textbooks and passive video lectures offer no adaptive correction loop for actual code development and synthesis." },
+            { icon: "🚪", title: "High Entry Barrier", desc: "Premium mentorship and senior industry coaching costs thousands of dollars, putting it completely out of reach for most students." },
+          ].map(({ icon, title, desc }) => (
             <motion.div
               key={title}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={i * 0.12}
               variants={fadeUp}
-              className="p-6 rounded-2xl bg-zinc-900/60 border border-white/8 hover:border-orange-500/30 transition-all duration-300"
+              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              className="group p-8 rounded-[2rem] bg-zinc-900/40 border border-white/5 hover:border-orange-500/30 hover:bg-zinc-900/80 transition-all duration-300 relative overflow-hidden"
             >
-              <div className="text-3xl mb-4">{icon}</div>
-              <h3 className="font-bold text-white mb-2">{title}</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed">{desc}</p>
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative z-10">
+                <div className="w-14 h-14 rounded-2xl bg-zinc-800/80 border border-white/10 flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:scale-110 group-hover:border-orange-500/30 transition-all duration-300">
+                  {icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3 tracking-wide">{title}</h3>
+                <p className="text-zinc-400 text-base leading-relaxed">{desc}</p>
+              </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -230,41 +312,61 @@ function ProblemSection() {
 
 function SolutionSection() {
   return (
-    <section className="py-24 px-4">
+    <section className="py-24 px-4 relative">
       <div className="max-w-6xl mx-auto">
-        <div className="relative rounded-3xl overflow-hidden border border-orange-500/20 bg-gradient-to-br from-orange-950/40 via-zinc-900/80 to-zinc-950/80 p-10 lg:p-16">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="text-xs font-bold text-orange-500 uppercase tracking-widest mb-4">The Solution</div>
-              <h2 className="text-3xl lg:text-4xl font-black text-white mb-6 leading-tight">
-                AI-Driven Skill Intelligence for VLSI Engineers
-              </h2>
-              <p className="text-zinc-300 text-base leading-relaxed mb-6">
-                Rycene AI combines Google Gemini&apos;s reasoning with a precision skill-scoring engine to deliver an adaptive learning experience that evolves with your competency level — closing the gap between where you are and where industry demands you to be.
-              </p>
-              <Link
-                href="/login"
-                className="inline-flex items-center gap-2 text-sm font-bold text-black bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.35)] hover:shadow-[0_0_30px_rgba(249,115,22,0.55)] transition-all duration-300"
-              >
-                Start Learning Free →
-              </Link>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="relative rounded-[2.5rem] overflow-hidden border border-orange-500/20 bg-gradient-to-br from-orange-950/60 via-zinc-950 to-zinc-900/90 p-12 lg:p-20 shadow-[0_0_80px_rgba(249,115,22,0.08)]"
+        >
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/10 rounded-full blur-[100px] pointer-events-none" />
+
+          <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <div>
+                <div className="text-[11px] font-bold text-orange-400 uppercase tracking-widest mb-4">The Solution</div>
+                <h2 className="text-4xl lg:text-5xl font-black text-white leading-[1.1] tracking-tight mb-6">
+                  AI-Driven Skill Intelligence for VLSI
+                </h2>
+                <p className="text-zinc-300 text-lg leading-relaxed">
+                  Rycene AI combines Google Gemini&apos;s advanced reasoning with a precision skill-scoring engine to deliver an adaptive learning experience. It evolves dynamically with your true competency level.
+                </p>
+              </div>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} className="inline-block">
+                <Link
+                  href="/login"
+                  className="inline-flex items-center justify-center gap-2 text-base font-bold text-black bg-gradient-to-r from-orange-500 to-amber-400 px-8 py-4 rounded-xl shadow-[0_8px_24px_rgba(249,115,22,0.3)] hover:shadow-[0_12px_36px_rgba(249,115,22,0.5)] transition-all duration-300"
+                >
+                  Experience the Platform →
+                </Link>
+              </motion.div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+
+            <div className="grid grid-cols-2 gap-5">
               {[
-                { label: "EWA Skill Scoring", sub: "Exponential Weighted Average" },
-                { label: "Gemini AI Backbone", sub: "Flash 1.5 Reasoning Engine" },
-                { label: "6 VLSI Domains", sub: "RTL, STA, Physical, DFT…" },
-                { label: "14-Day Roadmaps", sub: "Personalized to Weak Areas" },
-              ].map(({ label, sub }) => (
-                <div key={label} className="p-4 rounded-xl bg-black/40 border border-white/8">
-                  <div className="text-white font-bold text-sm mb-1">{label}</div>
-                  <div className="text-zinc-500 text-xs">{sub}</div>
-                </div>
+                { label: "EWA Core", sub: "Exponential Scoring Algorithm", icon: "📐" },
+                { label: "Gemini AI Backbone", sub: "Flash 1.5 Reasoning Engine", icon: "🧠" },
+                { label: "6 Industry Domains", sub: "RTL, STA, Physical, DFT", icon: "⚡" },
+                { label: "14-Day Roadmaps", sub: "Dynamic Skill Generation", icon: "🗺️" },
+              ].map(({ label, sub, icon }, i) => (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 + (i * 0.1), duration: 0.5 }}
+                  key={label}
+                  className="p-5 rounded-2xl bg-black/50 border border-white/5 hover:border-orange-500/30 transition-colors duration-300"
+                >
+                  <div className="text-2xl mb-3">{icon}</div>
+                  <div className="text-white font-bold text-[15px] mb-1 tracking-wide">{label}</div>
+                  <div className="text-zinc-400 text-xs leading-relaxed">{sub}</div>
+                </motion.div>
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -272,88 +374,59 @@ function SolutionSection() {
 
 function FeaturesGrid() {
   const features = [
-    {
-      icon: "🤖",
-      gradient: "from-orange-500/15 to-amber-500/5",
-      border: "border-orange-500/20",
-      title: "AI Tutor",
-      desc: "Ask any VLSI concept — RTL timing, DFT strategies, SystemVerilog syntax. Get structured, expert-level explanations with real code examples, powered by Gemini AI.",
-    },
-    {
-      icon: "⚡",
-      gradient: "from-amber-500/15 to-orange-500/5",
-      border: "border-amber-500/20",
-      title: "Code Evaluation Engine",
-      desc: "Submit your Verilog / SystemVerilog code and receive rubric-based feedback with scores on correctness, synthesis efficiency, and coding standards.",
-    },
-    {
-      icon: "📡",
-      gradient: "from-orange-600/15 to-red-500/5",
-      border: "border-orange-600/20",
-      title: "Skill Readiness Dashboard",
-      desc: "Live radar chart and KPI cards showing your strengths across 6 VLSI domains. Readiness score updates after every evaluation using the EWA algorithm.",
-    },
-    {
-      icon: "📋",
-      gradient: "from-amber-400/15 to-yellow-500/5",
-      border: "border-amber-400/20",
-      title: "Personalized Study Plans",
-      desc: "AI-generated 14-day roadmaps, dynamically adapted from your weak topic profile. Each plan includes focused exercises and milestone tracking.",
-    },
-    {
-      icon: "🎯",
-      gradient: "from-orange-500/15 to-amber-400/5",
-      border: "border-orange-500/20",
-      title: "Interview Simulator",
-      desc: "Practice real-world VLSI interview questions with AI-graded answers. Get confidence scores and targeted preparation feedback for each session.",
-    },
-    {
-      icon: "🔬",
-      gradient: "from-amber-500/10 to-orange-600/5",
-      border: "border-amber-500/20",
-      title: "Code Lab",
-      desc: "Integrated Monaco editor for live Verilog coding with syntax highlighting, evaluation submission, and structured result display — all in one place.",
-    },
+    { icon: "🤖", title: "AI Concept Tutor", desc: "Ask any complex VLSI concept — RTL timing, DFT strategies, or syntax. Get structured, expert explanations with real code examples." },
+    { icon: "⚡", title: "Code Evaluation Engine", desc: "Submit your exact Verilog code and receive instant rubric-based feedback scoring correctness, synthesis efficiency, and formatting." },
+    { icon: "📡", title: "Live Skill Radar", desc: "A live multidimensional radar chart tracking your exact readiness across 6 VLSI domains, updated natively after every single interaction." },
+    { icon: "📋", title: "Adaptive Study Plans", desc: "AI-generated 14-day progressive roadmaps, strictly adapted from your weakest topic profile with daily milestone tracking." },
+    { icon: "🎯", title: "Interview Simulator", desc: "Practice high-pressure real-world VLSI interview questions. Get immediate confidence scoring and targeted feedback on your delivery." },
+    { icon: "🔬", title: "Monaco Code Lab", desc: "Professional integrated editor for live Verilog coding with highlighting, validation, and direct evaluation submission in one place." },
   ];
 
   return (
-    <section id="features" className="py-24 px-4">
+    <section id="features" className="py-28 px-4 relative">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
-          custom={0}
-          variants={fadeUp}
-          className="text-center max-w-xl mx-auto mb-14"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="text-center max-w-2xl mx-auto mb-20"
         >
-          <div className="text-xs font-bold text-orange-500 uppercase tracking-widest mb-4">Features</div>
-          <h2 className="text-3xl lg:text-4xl font-black text-white mb-4">Everything You Need to Get Hired</h2>
-          <p className="text-zinc-400 text-sm leading-relaxed">
-            A complete skill development system built for semiconductor engineers.
-          </p>
+          <motion.div variants={fadeUp} className="text-[11px] font-bold text-orange-500 uppercase tracking-widest mb-4">Core Platform</motion.div>
+          <motion.h2 variants={fadeUp} className="text-4xl lg:text-5xl font-black text-white mb-6 tracking-tight">Everything You Need to Get Hired</motion.h2>
+          <motion.p variants={fadeUp} className="text-zinc-400 text-lg leading-relaxed">
+            A fully integrated skill development subsystem designed exclusively for semiconductor engineering.
+          </motion.p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {features.map(({ icon, gradient, border, title, desc }, i) => (
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={staggerContainer}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {features.map(({ icon, title, desc }) => (
             <motion.div
               key={title}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              custom={i * 0.08}
               variants={fadeUp}
-              className={`relative p-6 rounded-2xl bg-gradient-to-br ${gradient} border ${border} hover:scale-[1.02] transition-transform duration-300 cursor-default group overflow-hidden`}
+              whileHover={{ y: -6, scale: 1.01 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="group relative p-8 rounded-[2rem] bg-zinc-900/30 border border-white/5 hover:bg-zinc-900/60 overflow-hidden"
             >
-              <div className="absolute inset-0 bg-zinc-900/50 rounded-2xl" />
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-duration-500" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-[50px] translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
               <div className="relative z-10">
-                <div className="text-3xl mb-4">{icon}</div>
-                <h3 className="font-bold text-white mb-2">{title}</h3>
-                <p className="text-zinc-400 text-sm leading-relaxed">{desc}</p>
+                <div className="text-4xl mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 origin-left">
+                  {icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3 tracking-wide">{title}</h3>
+                <p className="text-zinc-400 text-[15px] leading-relaxed">{desc}</p>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -361,50 +434,50 @@ function FeaturesGrid() {
 
 function HowItWorks() {
   const steps = [
-    { number: "01", title: "Sign Up & Profile", desc: "Create your account. System initializes your baseline skill profile across all 6 VLSI domains." },
-    { number: "02", title: "Evaluate & Practice", desc: "Submit code, ask your AI tutor questions, and run mock interviews. Every answer feeds your skill profile." },
-    { number: "03", title: "Track Your Skills", desc: "Your readiness score, radar chart, and domain scores update using our EWA algorithm in real time." },
-    { number: "04", title: "Follow the Roadmap", desc: "Receive an adaptive 14-day study plan targeting your weakest domains. Stay on schedule with milestones." },
+    { number: "01", title: "Baseline Profiling", desc: "Create your account to establish a baseline readiness profile across standard VLSI domains." },
+    { number: "02", title: "Pushed Evaluation", desc: "Submit code, interact with the tutor, and run mock interviews. Every action is silently evaluated." },
+    { number: "03", title: "Real-Time Tracking", desc: "Your global readiness index and radar metrics recalculate instantly using the EWA pipeline." },
+    { number: "04", title: "Targeted Roadmaps", desc: "Generate adaptive study plans heavily biased toward optimizing your specifically identified weak spots." },
   ];
 
   return (
-    <section id="how-it-works" className="py-24 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section id="how-it-works" className="py-28 px-4 relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[400px] bg-gradient-to-r from-orange-900/10 via-amber-900/10 to-orange-900/10 blur-[100px] pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto relative z-10">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="text-center max-w-2xl mx-auto mb-20"
+        >
+          <motion.div variants={fadeUp} className="text-[11px] font-bold text-orange-500 uppercase tracking-widest mb-4">Methodology</motion.div>
+          <motion.h2 variants={fadeUp} className="text-4xl lg:text-5xl font-black text-white tracking-tight">The Learning Optimization Loop</motion.h2>
+        </motion.div>
+
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          custom={0}
-          variants={fadeUp}
-          className="text-center max-w-xl mx-auto mb-16"
+          variants={staggerContainer}
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8"
         >
-          <div className="text-xs font-bold text-orange-500 uppercase tracking-widest mb-4">How It Works</div>
-          <h2 className="text-3xl lg:text-4xl font-black text-white">The Learning Optimization Loop</h2>
+          {steps.map(({ number, title, desc }) => (
+            <motion.div
+              key={number}
+              variants={fadeUp}
+              className="relative text-center group"
+            >
+              <div className="flex flex-col items-center mb-6">
+                <span className="text-sm font-black text-orange-500/80 tracking-widest mb-3 bg-orange-500/10 border border-orange-500/20 px-3 py-1 rounded-full">{number}</span>
+                <div className="w-0.5 h-12 bg-gradient-to-b from-orange-500/40 to-transparent group-hover:h-16 transition-all duration-300" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
+              <p className="text-zinc-400 text-[15px] leading-relaxed max-w-[260px] mx-auto">{desc}</p>
+            </motion.div>
+          ))}
         </motion.div>
-
-        <div className="relative">
-
-          <div className="grid lg:grid-cols-4 gap-6">
-            {steps.map(({ number, title, desc }, i) => (
-              <motion.div
-                key={number}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                custom={i * 0.12}
-                variants={fadeUp}
-                className="relative text-center"
-              >
-                <div className="flex flex-col items-center mb-4">
-                  <span className="text-xs font-bold text-orange-500/70 tracking-widest mb-1">{number}</span>
-                  <div className="w-8 h-px bg-orange-500/40" />
-                </div>
-                <h3 className="font-semibold text-white mb-2">{title}</h3>
-                <p className="text-zinc-500 text-sm leading-relaxed">{desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -413,43 +486,38 @@ function HowItWorks() {
 function ImpactSection() {
   return (
     <section id="impact" className="py-24 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="relative rounded-3xl overflow-hidden border border-white/8 bg-zinc-900/60 p-10 lg:p-16 text-center">
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-950/30 via-black/0 to-amber-950/20 pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-orange-500/8 rounded-full blur-3xl pointer-events-none" />
+      <div className="max-w-5xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative rounded-[3rem] overflow-hidden bg-zinc-900 text-center"
+        >
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-orange-950/20 via-zinc-900 to-zinc-950 pointer-events-none" />
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
 
-          <div className="relative z-10 max-w-2xl mx-auto space-y-6">
-            <div className="text-xs font-bold text-orange-500 uppercase tracking-widest">Impact</div>
-            <h2 className="text-3xl lg:text-4xl font-black text-white">
-              Outcome-Driven Education Transformation
+          <div className="relative z-10 p-12 lg:p-24 space-y-8">
+            <div className="text-[11px] font-bold text-orange-500 uppercase tracking-widest">The Outcome</div>
+            <h2 className="text-4xl lg:text-5xl font-black text-white leading-[1.1] tracking-tight max-w-3xl mx-auto">
+              Stop Guessing Your Readiness. Start Proving It.
             </h2>
-            <p className="text-zinc-400 text-base leading-relaxed">
-              Rycene AI transforms passive learners into industry-ready VLSI engineers. By closing the gap between theoretical knowledge and practical skills, students walk into interviews confident, equipped, and evaluated by the same rubrics hiring managers use.
-            </p>
 
-            <div className="grid md:grid-cols-3 gap-5 pt-4">
-              {[
-                { stat: "3×", label: "Faster skill growth vs traditional studying" },
-                { stat: "87%", label: "Of learners improve readiness in 14 days" },
-                { stat: "6", label: "Core VLSI domains covered end-to-end" },
-              ].map(({ stat, label }) => (
-                <div key={stat} className="p-5 rounded-xl bg-black/40 border border-white/8">
-                  <div className="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-amber-300 mb-1">{stat}</div>
-                  <div className="text-zinc-400 text-xs leading-relaxed">{label}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="pt-4">
-              <Link
-                href="/login"
-                className="inline-flex items-center gap-2 text-sm font-bold text-black bg-gradient-to-r from-orange-500 to-amber-400 hover:from-orange-400 hover:to-amber-300 px-8 py-4 rounded-xl shadow-[0_0_24px_rgba(249,115,22,0.4)] hover:shadow-[0_0_36px_rgba(249,115,22,0.6)] transition-all duration-300"
-              >
-                Join Rycene AI Today →
-              </Link>
+            <div className="pt-8">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }} className="inline-block">
+                <Link
+                  href="/login"
+                  className="relative inline-flex items-center justify-center gap-2 text-lg font-bold text-black bg-gradient-to-r from-orange-500 to-amber-400 px-10 py-5 rounded-2xl shadow-[0_12px_40px_rgba(249,115,22,0.4)] hover:shadow-[0_16px_50px_rgba(249,115,22,0.6)] transition-all duration-300 group overflow-hidden"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    Launch Platform Dashboard <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
+                  </span>
+                </Link>
+              </motion.div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -457,28 +525,22 @@ function ImpactSection() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/8 py-10 px-4">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer className="border-t border-white/5 py-12 px-6 bg-zinc-950 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
         {/* Brand */}
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg flex items-center justify-center">
-            <span className="text-xs">🧠</span>
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center">
+            <span className="text-[13px]">🧠</span>
           </div>
-          <span className="text-white font-bold text-sm">Rycene AI</span>
-          <span className="text-zinc-600 text-xs ml-2">VLSI Mentor Platform</span>
-        </div>
-
-        {/* Links */}
-        <div className="flex items-center gap-6 text-xs text-zinc-500 font-medium">
-          <a href="#features" className="hover:text-zinc-300 transition-colors">Features</a>
-          <a href="#how-it-works" className="hover:text-zinc-300 transition-colors">How It Works</a>
-          <Link href="/login" className="hover:text-zinc-300 transition-colors">Login</Link>
+          <div>
+            <div className="text-white font-bold text-[15px] tracking-wide">Rycene AI</div>
+            <div className="text-zinc-600 text-[11px] uppercase tracking-widest font-bold mt-0.5">VLSI Mentor Platform</div>
+          </div>
         </div>
 
         {/* Copyright */}
-        <div className="text-zinc-600 text-xs">
-          © 2025 Rycene. Built by{" "}
-          <span className="text-zinc-400 font-medium">Yasmeen MS & Rachana P</span>
+        <div className="text-zinc-500 text-sm font-medium">
+          © 2025 Rycene Platform. Engineered by <span className="text-zinc-300 font-bold">Yasmeen MS & Rachana P</span>.
         </div>
       </div>
     </footer>
@@ -501,23 +563,19 @@ export default function LandingPage() {
   }, [router]);
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-orange-500/30 selection:text-orange-100 overflow-x-hidden">
-      {/* Ambient glows */}
-      <div className="fixed pointer-events-none inset-0 z-0">
-        <div className="absolute top-0 left-1/3 w-[600px] h-[400px] bg-orange-600/8 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[300px] bg-amber-500/6 rounded-full blur-3xl" />
-      </div>
+    <div className="min-h-screen bg-black text-white selection:bg-orange-500/30 selection:text-orange-100 overflow-x-hidden font-sans">
+      <Navbar />
 
-      <div className="relative z-10">
-        <Navbar />
+      <main className="relative z-10">
         <HeroSection />
         <ProblemSection />
         <SolutionSection />
         <FeaturesGrid />
         <HowItWorks />
         <ImpactSection />
-        <Footer />
-      </div>
+      </main>
+
+      <Footer />
     </div>
   );
 }
