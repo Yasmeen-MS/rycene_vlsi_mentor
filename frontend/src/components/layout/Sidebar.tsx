@@ -17,7 +17,7 @@ export default function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="w-64 h-screen bg-black/40 backdrop-blur-xl border-r border-white/10 shrink-0 flex flex-col">
+        <aside className="w-64 h-screen bg-black/20 backdrop-blur-2xl border-r border-white/5 shadow-[4px_0_24px_rgba(0,0,0,0.5)] shrink-0 flex flex-col relative z-20">
             {/* Logo */}
             <div className="h-16 flex items-center px-6 border-b border-white/10 shrink-0">
                 <div className="flex items-center gap-3">
@@ -38,7 +38,7 @@ export default function Sidebar() {
                             href={href}
                             className={cn(
                                 isActive
-                                    ? "text-white font-semibold flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all duration-200 bg-transparent drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+                                    ? "text-white font-semibold flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all duration-200 bg-orange-500/10 border border-orange-500/20 shadow-[0_0_15px_rgba(249,115,22,0.15)]"
                                     : "text-zinc-400 hover:bg-white/5 hover:text-zinc-200 flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200"
                             )}
                         >
@@ -58,6 +58,6 @@ export default function Sidebar() {
                     VLSI Mentor — v1.0
                 </p>
             </div>
-        </aside>
+        </aside >
     );
 }

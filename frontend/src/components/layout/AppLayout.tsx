@@ -19,8 +19,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 className="fixed inset-0 z-0 pointer-events-none bg-cover bg-center"
                 style={{ backgroundImage: "url('/images/abstract_bg.png')" }}
             />
-            {/* Dark blur overlay to ensure text contrast and premium glow */}
-            <div className="fixed inset-0 z-0 pointer-events-none bg-black/40 backdrop-blur-[40px]" />
+            {/* Ambient AMD-style glow overlay */}
+            <div className="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-900/30 via-black/70 to-black backdrop-blur-3xl" />
 
             <div className="relative z-10 flex">
                 <Sidebar />

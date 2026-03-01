@@ -196,13 +196,8 @@ function DashboardContent() {
             {/* ── Stat cards ── */}
             <div className="grid grid-cols-3 gap-6">
 
-                <Card
-                    className="rounded-3xl border shadow-2xl backdrop-blur-2xl relative overflow-hidden"
-                    style={{
-                        background: "radial-gradient(120% 100% at 50% 0%, rgba(249,115,22,0.15) 0%, rgba(9,9,11,0.9) 100%)",
-                        borderColor: "rgba(249,115,22,0.3)" // orange-500
-                    }}
-                >
+                <Card className="rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-2xl shadow-2xl relative overflow-hidden group hover:border-orange-500/30 transition-all duration-500">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500/0 via-orange-500/50 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-3">
                             <Target size={15} className="text-orange-500" />
@@ -218,13 +213,8 @@ function DashboardContent() {
                     </CardContent>
                 </Card>
 
-                <Card
-                    className="rounded-3xl border shadow-2xl backdrop-blur-2xl relative overflow-hidden"
-                    style={{
-                        background: "radial-gradient(120% 100% at 50% 0%, rgba(239,68,68,0.12) 0%, rgba(9,9,11,0.9) 100%)",
-                        borderColor: "rgba(239,68,68,0.25)" // red-500
-                    }}
-                >
+                <Card className="rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-2xl shadow-2xl relative overflow-hidden group hover:border-red-500/30 transition-all duration-500">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/0 via-red-500/50 to-red-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-3">
                             <AlertTriangle size={15} className="text-red-500" />
@@ -244,13 +234,8 @@ function DashboardContent() {
                     </CardContent>
                 </Card>
 
-                <Card
-                    className="rounded-3xl border shadow-2xl backdrop-blur-2xl relative overflow-hidden"
-                    style={{
-                        background: "radial-gradient(120% 100% at 50% 0%, rgba(245,158,11,0.12) 0%, rgba(9,9,11,0.9) 100%)",
-                        borderColor: "rgba(245,158,11,0.25)" // amber-500
-                    }}
-                >
+                <Card className="rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-2xl shadow-2xl relative overflow-hidden group hover:border-amber-500/30 transition-all duration-500">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500/0 via-amber-500/50 to-amber-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-3">
                             <Calendar size={15} className="text-amber-500" />
@@ -273,13 +258,8 @@ function DashboardContent() {
 
                 {/* Skill Radar */}
                 <div className="col-span-4">
-                    <Card
-                        className="rounded-3xl border shadow-2xl backdrop-blur-2xl h-full overflow-hidden relative"
-                        style={{
-                            background: "radial-gradient(120% 100% at 50% 0%, rgba(236,72,153,0.1) 0%, rgba(9,9,11,0.95) 100%)",
-                            borderColor: "rgba(236,72,153,0.2)" // pink-500
-                        }}
-                    >
+                    <Card className="rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-2xl shadow-2xl h-full overflow-hidden relative group hover:border-white/10 transition-all duration-500">
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
                         <CardHeader className="pb-0 pt-5 px-6">
                             <CardTitle className="text-sm font-bold text-white uppercase tracking-widest leading-loose">Skill Profile</CardTitle>
                         </CardHeader>
@@ -291,13 +271,8 @@ function DashboardContent() {
 
                 {/* Score Trend */}
                 <div className="col-span-8">
-                    <Card
-                        className="rounded-3xl border shadow-2xl backdrop-blur-2xl h-full overflow-hidden relative"
-                        style={{
-                            background: "radial-gradient(120% 100% at 50% 0%, rgba(139,92,246,0.1) 0%, rgba(9,9,11,0.95) 100%)",
-                            borderColor: "rgba(139,92,246,0.2)" // violet-500
-                        }}
-                    >
+                    <Card className="rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-2xl shadow-2xl h-full overflow-hidden relative group hover:border-white/10 transition-all duration-500">
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
                         <CardHeader className="pb-0 pt-5 px-6">
                             <div className="flex items-center justify-between">
                                 <CardTitle className="text-sm font-bold text-white uppercase tracking-widest leading-loose">Score Trend</CardTitle>
@@ -312,7 +287,7 @@ function DashboardContent() {
 
                 {/* ── Study Plan ── */}
                 <div className="col-span-12">
-                    <Card className="rounded-3xl border border-white/5 shadow-2xl bg-zinc-950/70 backdrop-blur-2xl">
+                    <Card className="rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-2xl shadow-2xl relative overflow-hidden group hover:border-white/10 transition-all duration-500">
                         <CardHeader className="pb-2">
                             <div className="flex items-center justify-between">
                                 <CardTitle className="text-base font-semibold text-white">Study Plan</CardTitle>
@@ -445,7 +420,7 @@ function DashboardContent() {
 
                 {/* ── Quick Tutor ── */}
                 <div className="col-span-12">
-                    <Card className="rounded-3xl border border-white/5 shadow-2xl bg-zinc-950/70 backdrop-blur-2xl">
+                    <Card className="rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-2xl shadow-2xl relative overflow-hidden group hover:border-white/10 transition-all duration-500">
                         <CardHeader className="pb-2">
                             <CardTitle className="text-base font-semibold text-white">Quick Tutor</CardTitle>
                         </CardHeader>
