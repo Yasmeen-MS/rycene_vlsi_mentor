@@ -140,7 +140,7 @@ function HeroSection() {
   const opacity1 = useTransform(scrollY, [0, 400], [1, 0]);
 
   return (
-    <section className="relative pt-44 pb-32 px-4 overflow-hidden">
+    <section className="relative pt-44 pb-16 px-4 overflow-hidden">
       <motion.div
         style={{ y: y1, opacity: opacity1 }}
         className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-8 items-center"
@@ -258,53 +258,89 @@ function HeroSection() {
 
 function ProblemSection() {
   return (
-    <section className="py-28 px-4 relative">
-      <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-          className="text-center max-w-3xl mx-auto mb-20"
-        >
-          <motion.div variants={fadeUp} className="text-[11px] font-bold text-orange-500 uppercase tracking-widest mb-4">The Challenge</motion.div>
-          <motion.h2 variants={fadeUp} className="text-4xl lg:text-5xl font-black text-white mb-6 tracking-tight">
-            The Industry Readiness Gap
-          </motion.h2>
-          <motion.p variants={fadeUp} className="text-zinc-400 text-lg leading-relaxed">
-            Engineering curricula teach pure theory. Semiconductor companies demand engineers who can write production RTL, close timing, and debug DFT issues on day one. Most graduates arrive 12–18 months behind standard requirements.
-          </motion.p>
-        </motion.div>
+    <section className="relative w-full">
+      {/* Trust / Logo Strip connecting Hero to Problem Section */}
+      <div className="w-full bg-black py-10 border-t border-white/5 relative z-20">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-8">
+            Trusted by the best engineers around the world
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20 opacity-40 grayscale transition-all duration-500 hover:grayscale-0 hover:opacity-100">
+            {/* Abstract placeholder logos mimicking the reference image style */}
+            <div className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><span className="text-2xl">⚡</span> NVIDIA</div>
+            <div className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><span className="text-2xl">🔬</span> Intel</div>
+            <div className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><span className="text-2xl">📱</span> Qualcomm</div>
+            <div className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><span className="text-2xl">🖥️</span> AMD</div>
+          </div>
+        </div>
+      </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={staggerContainer}
-          className="grid md:grid-cols-3 gap-6"
-        >
-          {[
-            { icon: "📉", title: "Skills Mismatch", desc: "University coursework covers barely 30% of what VLSI hiring managers actually test in first-round technical interviews." },
-            { icon: "⏱️", title: "No Real-Time Feedback", desc: "Static textbooks and passive video lectures offer no adaptive correction loop for actual code development and synthesis." },
-            { icon: "🚪", title: "High Entry Barrier", desc: "Premium mentorship and senior industry coaching costs thousands of dollars, putting it completely out of reach for most students." },
-          ].map(({ icon, title, desc }) => (
+      {/* Dark Slanted Problem Section mimicking the reference image */}
+      <div className="w-full bg-zinc-950 py-24 px-4 relative overflow-hidden border-t border-white/5">
+        {/* Subtle dark gradient slant background */}
+        <div className="absolute top-0 right-1/4 w-[800px] h-[800px] bg-white/[0.02] -skew-x-[30deg] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-full h-[500px] bg-gradient-to-t from-black to-transparent pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="grid lg:grid-cols-12 gap-12 items-start mb-20">
             <motion.div
-              key={title}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
               variants={fadeUp}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="group p-8 rounded-[2rem] bg-zinc-900/40 border border-white/5 hover:border-orange-500/30 hover:bg-zinc-900/80 transition-all duration-300 relative overflow-hidden"
+              className="lg:col-span-5"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-zinc-800/80 border border-white/10 flex items-center justify-center text-3xl mb-6 shadow-sm group-hover:scale-110 group-hover:border-orange-500/30 transition-all duration-300">
-                  {icon}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3 tracking-wide">{title}</h3>
-                <p className="text-zinc-400 text-base leading-relaxed">{desc}</p>
+              <div className="inline-flex items-center gap-1.5 text-[11px] font-bold text-orange-500 mb-4">
+                <span className="text-orange-500">⚡</span> The Challenge
               </div>
+              <h2 className="text-4xl lg:text-5xl font-normal text-white tracking-tight leading-[1.15]">
+                How the <span className="font-bold relative inline-block">Industry Readiness Gap<span className="absolute bottom-1 left-0 w-full h-2 bg-orange-500/20 -z-10 blur-sm flex"></span></span> hurts engineers
+              </h2>
             </motion.div>
-          ))}
-        </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeUp}
+              className="lg:col-span-6 lg:col-start-7 lg:mt-10"
+            >
+              <p className="text-zinc-400 text-lg leading-relaxed border-l-2 border-orange-500/30 pl-6">
+                Engineering curricula teach pure theory. Semiconductor companies demand engineers who can write production RTL, close timing, and debug DFT issues on day one. Most graduates arrive roughly 12–18 months behind standard hiring requirements.
+              </p>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={staggerContainer}
+            className="grid md:grid-cols-3 gap-6 relative"
+          >
+            {[
+              { icon: "📉", title: "Skills Mismatch", desc: "University coursework covers barely 30% of what VLSI hiring managers actually test in first-round technical interviews." },
+              { icon: "⏱️", title: "No Real-Time Feedback", desc: "Static textbooks and passive video lectures offer no adaptive correction loop for actual code development and synthesis." },
+              { icon: "🚪", title: "High Entry Barrier", desc: "Premium mentorship and senior industry coaching costs thousands of dollars, putting it completely out of reach for most students." },
+            ].map(({ icon, title, desc }) => (
+              <motion.div
+                key={title}
+                variants={fadeUp}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="group p-8 rounded-[1.5rem] bg-black/60 border border-white/5 hover:border-orange-500/30 transition-all duration-300 relative overflow-hidden backdrop-blur-sm"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center text-2xl mb-6 shadow-[0_0_15px_rgba(249,115,22,0.1)] group-hover:scale-110 group-hover:bg-orange-500/20 transition-all duration-300">
+                    {icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3 tracking-wide">{title}</h3>
+                  <p className="text-zinc-500 text-sm leading-relaxed">{desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );
