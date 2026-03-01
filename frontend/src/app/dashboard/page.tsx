@@ -198,7 +198,7 @@ function DashboardContent() {
 
                 <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl">
                     <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#f97316_100%)] animate-[spin_4s_linear_infinite]" />
-                    <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-orange-500/10 via-orange-950/40 to-black/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
+                    <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-orange-500/5 via-orange-950/20 to-black/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500/0 via-orange-500/50 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         <CardContent className="p-6">
                             <div className="flex items-center gap-2 mb-3">
@@ -218,7 +218,7 @@ function DashboardContent() {
 
                 <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl">
                     <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#ef4444_100%)] animate-[spin_4s_linear_infinite]" />
-                    <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-red-500/10 via-red-950/40 to-black/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
+                    <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-red-500/5 via-red-950/20 to-black/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/0 via-red-500/50 to-red-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         <CardContent className="p-6">
                             <div className="flex items-center gap-2 mb-3">
@@ -242,7 +242,7 @@ function DashboardContent() {
 
                 <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl">
                     <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#f59e0b_100%)] animate-[spin_4s_linear_infinite]" />
-                    <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-amber-500/10 via-amber-950/40 to-black/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
+                    <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-amber-500/5 via-amber-950/20 to-black/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500/0 via-amber-500/50 to-amber-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         <CardContent className="p-6">
                             <div className="flex items-center gap-2 mb-3">
@@ -269,7 +269,7 @@ function DashboardContent() {
                 <div className="col-span-4">
                     <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl h-full">
                         <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#ec4899_100%)] animate-[spin_4s_linear_infinite]" />
-                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-pink-500/10 via-pink-950/40 to-black/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
+                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-pink-500/5 via-pink-950/20 to-black/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
                             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
                             <CardHeader className="pb-0 pt-5 px-6">
                                 <CardTitle className="text-sm font-bold text-white uppercase tracking-widest leading-loose">Skill Profile</CardTitle>
@@ -285,7 +285,7 @@ function DashboardContent() {
                 <div className="col-span-8">
                     <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl h-full">
                         <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#8b5cf6_100%)] animate-[spin_4s_linear_infinite]" />
-                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-violet-500/10 via-violet-950/40 to-black/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
+                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-violet-500/5 via-violet-950/20 to-black/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
                             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
                             <CardHeader className="pb-0 pt-5 px-6">
                                 <div className="flex items-center justify-between">
@@ -304,7 +304,7 @@ function DashboardContent() {
                 <div className="col-span-12">
                     <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl">
                         <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#3b82f6_100%)] animate-[spin_4s_linear_infinite]" />
-                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-blue-500/10 via-blue-950/40 to-black/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-3xl relative z-10 transition-all duration-500">
+                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-blue-500/5 via-blue-950/20 to-black/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-3xl relative z-10 transition-all duration-500">
                             <CardHeader className="pb-2">
                                 <div className="flex items-center justify-between">
                                     <CardTitle className="text-base font-semibold text-white">Study Plan</CardTitle>
@@ -442,7 +442,7 @@ function DashboardContent() {
                 <div className="col-span-12">
                     <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl">
                         <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#10b981_100%)] animate-[spin_4s_linear_infinite]" />
-                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-emerald-500/10 via-emerald-950/40 to-black/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] backdrop-blur-3xl relative z-10 transition-all duration-500">
+                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-gradient-to-br from-emerald-500/5 via-emerald-950/20 to-black/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-3xl relative z-10 transition-all duration-500">
                             <CardHeader className="pb-2">
                                 <CardTitle className="text-base font-semibold text-white">Quick Tutor</CardTitle>
                             </CardHeader>
