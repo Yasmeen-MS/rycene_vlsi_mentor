@@ -173,7 +173,7 @@ function HeroSection() {
   const y1 = useTransform(scrollY, [0, 1000], [0, 150]);
 
   return (
-    <section className="relative pt-44 pb-16 px-4 overflow-hidden">
+    <section className="relative pt-32 pb-16 px-4 overflow-hidden">
       <HeroParticles />
       <motion.div
         style={{ y: y1 }}
