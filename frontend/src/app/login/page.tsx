@@ -23,19 +23,19 @@ type Mode = "login" | "register";
 // Custom SVG Logic Gates for 3D Background
 const AndGate = ({ className }: { className?: string }) => (
     <svg viewBox="0 0 100 100" className={className} fill="currentColor">
-        <path d="M 20 20 L 50 20 A 30 30 0 0 1 80 50 A 30 30 0 0 1 50 80 L 20 80 Z" stroke="url(#steelGrad)" strokeWidth="4" fill="url(#glassGrad)" />
-        <line x1="0" y1="35" x2="20" y2="35" stroke="url(#steelGrad)" strokeWidth="4" />
-        <line x1="0" y1="65" x2="20" y2="65" stroke="url(#steelGrad)" strokeWidth="4" />
-        <line x1="80" y1="50" x2="100" y2="50" stroke="url(#steelGrad)" strokeWidth="4" />
+        <path d="M 20 20 L 50 20 A 30 30 0 0 1 80 50 A 30 30 0 0 1 50 80 L 20 80 Z" stroke="url(#orangeGrad)" strokeWidth="4" fill="url(#glassGrad)" />
+        <line x1="0" y1="35" x2="20" y2="35" stroke="url(#orangeGrad)" strokeWidth="4" />
+        <line x1="0" y1="65" x2="20" y2="65" stroke="url(#orangeGrad)" strokeWidth="4" />
+        <line x1="80" y1="50" x2="100" y2="50" stroke="url(#orangeGrad)" strokeWidth="4" />
     </svg>
 );
 
 const OrGate = ({ className }: { className?: string }) => (
     <svg viewBox="0 0 100 100" className={className} fill="currentColor">
-        <path d="M 20 20 Q 50 20 80 50 Q 50 80 20 80 Q 35 50 20 20 Z" stroke="url(#steelGrad)" strokeWidth="4" fill="url(#glassGrad)" />
-        <line x1="0" y1="35" x2="25" y2="35" stroke="url(#steelGrad)" strokeWidth="4" />
-        <line x1="0" y1="65" x2="25" y2="65" stroke="url(#steelGrad)" strokeWidth="4" />
-        <line x1="80" y1="50" x2="100" y2="50" stroke="url(#steelGrad)" strokeWidth="4" />
+        <path d="M 20 20 Q 50 20 80 50 Q 50 80 20 80 Q 35 50 20 20 Z" stroke="url(#orangeGrad)" strokeWidth="4" fill="url(#glassGrad)" />
+        <line x1="0" y1="35" x2="25" y2="35" stroke="url(#orangeGrad)" strokeWidth="4" />
+        <line x1="0" y1="65" x2="25" y2="65" stroke="url(#orangeGrad)" strokeWidth="4" />
+        <line x1="80" y1="50" x2="100" y2="50" stroke="url(#orangeGrad)" strokeWidth="4" />
     </svg>
 );
 
@@ -122,7 +122,7 @@ export default function LoginPage() {
 
             {/* Gate 2 */}
             <motion.div
-                className="absolute bottom-[20%] right-[10%] w-64 h-64 drop-shadow-[0_30px_40px_rgba(56,189,248,0.2)]"
+                className="absolute bottom-[20%] right-[10%] w-64 h-64 drop-shadow-[0_30px_40px_rgba(249,115,22,0.2)]"
                 animate={{
                     y: [30, -30, 30],
                     rotateX: [-20, 10, -20],
@@ -135,7 +135,7 @@ export default function LoginPage() {
 
             {/* Gate 3 */}
             <motion.div
-                className="absolute top-[20%] right-[25%] w-32 h-32 drop-shadow-[0_15px_20px_rgba(168,85,247,0.3)]"
+                className="absolute top-[20%] right-[25%] w-32 h-32 drop-shadow-[0_15px_20px_rgba(251,191,36,0.2)]"
                 animate={{
                     y: [15, -15, 15],
                     rotateX: [0, 40, 0],
