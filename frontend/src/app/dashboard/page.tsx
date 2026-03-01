@@ -196,61 +196,70 @@ function DashboardContent() {
             {/* ── Stat cards ── */}
             <div className="grid grid-cols-3 gap-6">
 
-                <Card className="rounded-3xl border border-white/5 bg-orange-950/80 backdrop-blur-md shadow-2xl relative overflow-hidden group hover:border-orange-500/30 transition-all duration-500">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500/0 via-orange-500/50 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <CardContent className="p-6">
-                        <div className="flex items-center gap-2 mb-3">
-                            <Target size={15} className="text-orange-500" />
-                            <span className="text-sm font-medium text-zinc-300">Industry Readiness</span>
-                        </div>
-                        <div className="flex items-end gap-2">
-                            <span className="text-4xl font-bold text-white">{displayReadiness}</span>
-                            <span className="text-lg text-zinc-500 mb-1">/ 100</span>
-                        </div>
-                        <div className="mt-3 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
-                            <div className="h-full bg-gradient-to-r from-orange-500 to-amber-400 rounded-full transition-all duration-1000" style={{ width: `${Math.min(displayReadiness, 100)}%` }} />
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card className="rounded-3xl border border-white/5 bg-red-950/80 backdrop-blur-md shadow-2xl relative overflow-hidden group hover:border-red-500/30 transition-all duration-500">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/0 via-red-500/50 to-red-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <CardContent className="p-6">
-                        <div className="flex items-center gap-2 mb-3">
-                            <AlertTriangle size={15} className="text-red-500" />
-                            <span className="text-sm font-medium text-zinc-300">Weak Domains</span>
-                        </div>
-                        {weakTopics.length === 0 ? (
-                            <p className="text-sm text-zinc-500 mt-2">{userData ? "No weak topics — great job!" : "Complete an evaluation to start"}</p>
-                        ) : (
-                            <div className="flex flex-wrap gap-2 mt-2">
-                                {weakTopics.slice(0, 3).map((t) => (
-                                    <span key={t} className="text-xs font-medium px-2.5 py-1 rounded-lg bg-red-950/40 text-red-400 border border-red-900/50 shadow-[0_0_10px_rgba(239,68,68,0.1)]">
-                                        {DOMAIN_LABELS[t] ?? t}
-                                    </span>
-                                ))}
+                <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl">
+                    <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#f97316_100%)] animate-[spin_4s_linear_infinite]" />
+                    <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-orange-950/60 backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500/0 via-orange-500/50 to-orange-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <CardContent className="p-6">
+                            <div className="flex items-center gap-2 mb-3">
+                                <Target size={15} className="text-orange-500" />
+                                <span className="text-sm font-medium text-zinc-300">Industry Readiness</span>
                             </div>
-                        )}
-                    </CardContent>
-                </Card>
-
-                <Card className="rounded-3xl border border-white/5 bg-amber-950/80 backdrop-blur-md shadow-2xl relative overflow-hidden group hover:border-amber-500/30 transition-all duration-500">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500/0 via-amber-500/50 to-amber-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <CardContent className="p-6">
-                        <div className="flex items-center gap-2 mb-3">
-                            <Calendar size={15} className="text-amber-500" />
-                            <span className="text-sm font-medium text-zinc-300">Interview Countdown</span>
-                        </div>
-                        {daysRemaining !== null ? (
                             <div className="flex items-end gap-2">
-                                <span className="text-4xl font-bold text-white shadow-[0_0_15px_rgba(251,191,36,0.2)]">{daysRemaining}</span>
-                                <span className="text-sm text-zinc-500 mb-1">days remaining</span>
+                                <span className="text-4xl font-bold text-white">{displayReadiness}</span>
+                                <span className="text-lg text-zinc-500 mb-1">/ 100</span>
                             </div>
-                        ) : (
-                            <p className="text-sm text-zinc-500 mt-2">Set an interview date in Study Plan</p>
-                        )}
-                    </CardContent>
-                </Card>
+                            <div className="mt-3 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                                <div className="h-full bg-gradient-to-r from-orange-500 to-amber-400 rounded-full transition-all duration-1000" style={{ width: `${Math.min(displayReadiness, 100)}%` }} />
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+
+                <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl">
+                    <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#ef4444_100%)] animate-[spin_4s_linear_infinite]" />
+                    <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-red-950/60 backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/0 via-red-500/50 to-red-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <CardContent className="p-6">
+                            <div className="flex items-center gap-2 mb-3">
+                                <AlertTriangle size={15} className="text-red-500" />
+                                <span className="text-sm font-medium text-zinc-300">Weak Domains</span>
+                            </div>
+                            {weakTopics.length === 0 ? (
+                                <p className="text-sm text-zinc-500 mt-2">{userData ? "No weak topics — great job!" : "Complete an evaluation to start"}</p>
+                            ) : (
+                                <div className="flex flex-wrap gap-2 mt-2">
+                                    {weakTopics.slice(0, 3).map((t) => (
+                                        <span key={t} className="text-xs font-medium px-2.5 py-1 rounded-lg bg-red-950/40 text-red-400 border border-red-900/50 shadow-[0_0_10px_rgba(239,68,68,0.1)]">
+                                            {DOMAIN_LABELS[t] ?? t}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                </div>
+
+                <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl">
+                    <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#f59e0b_100%)] animate-[spin_4s_linear_infinite]" />
+                    <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-amber-950/60 backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500/0 via-amber-500/50 to-amber-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <CardContent className="p-6">
+                            <div className="flex items-center gap-2 mb-3">
+                                <Calendar size={15} className="text-amber-500" />
+                                <span className="text-sm font-medium text-zinc-300">Interview Countdown</span>
+                            </div>
+                            {daysRemaining !== null ? (
+                                <div className="flex items-end gap-2">
+                                    <span className="text-4xl font-bold text-white shadow-[0_0_15px_rgba(251,191,36,0.2)]">{daysRemaining}</span>
+                                    <span className="text-sm text-zinc-500 mb-1">days remaining</span>
+                                </div>
+                            ) : (
+                                <p className="text-sm text-zinc-500 mt-2">Set an interview date in Study Plan</p>
+                            )}
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
 
             {/* ── Charts + Plan + Tutor ── */}
@@ -258,214 +267,226 @@ function DashboardContent() {
 
                 {/* Skill Radar */}
                 <div className="col-span-4">
-                    <Card className="rounded-3xl border border-white/5 bg-pink-950/80 backdrop-blur-md shadow-2xl h-full overflow-hidden relative group hover:border-pink-500/30 transition-all duration-500">
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
-                        <CardHeader className="pb-0 pt-5 px-6">
-                            <CardTitle className="text-sm font-bold text-white uppercase tracking-widest leading-loose">Skill Profile</CardTitle>
-                        </CardHeader>
-                        <CardContent className="px-2">
-                            <SkillRadar data={radarData} />
-                        </CardContent>
-                    </Card>
+                    <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl h-full">
+                        <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#ec4899_100%)] animate-[spin_4s_linear_infinite]" />
+                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-pink-950/60 backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+                            <CardHeader className="pb-0 pt-5 px-6">
+                                <CardTitle className="text-sm font-bold text-white uppercase tracking-widest leading-loose">Skill Profile</CardTitle>
+                            </CardHeader>
+                            <CardContent className="px-2">
+                                <SkillRadar data={radarData} />
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
 
                 {/* Score Trend */}
                 <div className="col-span-8">
-                    <Card className="rounded-3xl border border-white/5 bg-violet-950/80 backdrop-blur-md shadow-2xl h-full overflow-hidden relative group hover:border-violet-500/30 transition-all duration-500">
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
-                        <CardHeader className="pb-0 pt-5 px-6">
-                            <div className="flex items-center justify-between">
-                                <CardTitle className="text-sm font-bold text-white uppercase tracking-widest leading-loose">Score Trend</CardTitle>
-                                <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20 font-medium">Live</span>
-                            </div>
-                        </CardHeader>
-                        <CardContent className="px-2">
-                            <ScoreTrend data={trendData} />
-                        </CardContent>
-                    </Card>
+                    <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl h-full">
+                        <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#8b5cf6_100%)] animate-[spin_4s_linear_infinite]" />
+                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-violet-950/60 backdrop-blur-3xl h-full relative z-10 transition-all duration-500">
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+                            <CardHeader className="pb-0 pt-5 px-6">
+                                <div className="flex items-center justify-between">
+                                    <CardTitle className="text-sm font-bold text-white uppercase tracking-widest leading-loose">Score Trend</CardTitle>
+                                    <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20 font-medium">Live</span>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="px-2">
+                                <ScoreTrend data={trendData} />
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
 
                 {/* ── Study Plan ── */}
                 <div className="col-span-12">
-                    <Card className="rounded-3xl border border-white/5 bg-blue-950/80 backdrop-blur-md shadow-2xl relative overflow-hidden group hover:border-blue-500/30 transition-all duration-500">
-                        <CardHeader className="pb-2">
-                            <div className="flex items-center justify-between">
-                                <CardTitle className="text-base font-semibold text-white">Study Plan</CardTitle>
-                                {studyPlan && (
-                                    <div className="flex items-center gap-1">
-                                        <Button
-                                            variant="ghost" size="sm"
-                                            onClick={handleDownloadPDF}
-                                            className="text-xs text-zinc-400 hover:text-orange-400 hover:bg-orange-950/30 rounded-xl h-7 gap-1.5"
-                                        >
-                                            <Download size={12} />PDF
-                                        </Button>
-                                        <Button
-                                            variant="ghost" size="sm"
-                                            onClick={() => setShowRegenForm((v) => !v)}
-                                            className="text-xs text-zinc-400 hover:text-white hover:bg-white/5 rounded-xl h-7"
-                                        >
-                                            {showRegenForm ? "Cancel" : "Regenerate"}
-                                        </Button>
-                                    </div>
-                                )}
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            {studyPlan ? (
-                                <div className="space-y-4">
-
-                                    {/* Plan summary badges */}
-                                    <div className="flex flex-wrap gap-2">
-                                        {studyPlan.targetRole && (
-                                            <span className="text-xs px-2.5 py-1 bg-orange-950/40 text-orange-400 border border-orange-900/50 rounded-lg font-medium shadow-[0_0_10px_rgba(249,115,22,0.1)]">
-                                                {studyPlan.targetRole}
-                                            </span>
-                                        )}
-                                        {studyPlan.interviewDate && (
-                                            <span className="text-xs px-2.5 py-1 bg-zinc-900/50 text-zinc-400 border border-zinc-800 rounded-lg">
-                                                Interview: {new Date(studyPlan.interviewDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
-                                            </span>
-                                        )}
-                                        <span className="text-xs px-2.5 py-1 bg-amber-950/40 text-amber-500 border border-amber-900/50 rounded-lg shadow-[0_0_10px_rgba(245,158,11,0.1)]">
-                                            {studyPlan.roadmap.length} days
-                                        </span>
-                                    </div>
-
-                                    {/* Inline regenerate form */}
-                                    {showRegenForm && (
-                                        <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3">
-                                            <div className="grid grid-cols-3 gap-3">
-                                                <div className="space-y-1">
-                                                    <label className="text-xs font-medium text-gray-600">Target Role</label>
-                                                    <Input value={planForm.targetRole} onChange={(e) => setPlanForm((p) => ({ ...p, targetRole: e.target.value }))} className="text-xs rounded-xl h-8" />
-                                                </div>
-                                                <div className="space-y-1">
-                                                    <label className="text-xs font-medium text-gray-600">Interview Date</label>
-                                                    <Input type="date" value={planForm.interviewDate} onChange={(e) => setPlanForm((p) => ({ ...p, interviewDate: e.target.value }))} className="text-xs rounded-xl h-8" />
-                                                </div>
-                                                <div className="space-y-1">
-                                                    <label className="text-xs font-medium text-gray-600">Hours / Day</label>
-                                                    <Input type="number" min={1} max={16} value={planForm.hoursPerDay} onChange={(e) => setPlanForm((p) => ({ ...p, hoursPerDay: parseInt(e.target.value) || 4 }))} className="text-xs rounded-xl h-8" />
-                                                </div>
-                                            </div>
-                                            <Button onClick={handleGeneratePlan} disabled={generating} size="sm" className="rounded-xl h-7 text-xs">
-                                                {generating ? <><Loader2 size={11} className="mr-1.5 animate-spin" />Generating…</> : "Generate New Plan"}
+                    <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl">
+                        <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#3b82f6_100%)] animate-[spin_4s_linear_infinite]" />
+                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-blue-950/60 backdrop-blur-3xl relative z-10 transition-all duration-500">
+                            <CardHeader className="pb-2">
+                                <div className="flex items-center justify-between">
+                                    <CardTitle className="text-base font-semibold text-white">Study Plan</CardTitle>
+                                    {studyPlan && (
+                                        <div className="flex items-center gap-1">
+                                            <Button
+                                                variant="ghost" size="sm"
+                                                onClick={handleDownloadPDF}
+                                                className="text-xs text-zinc-400 hover:text-orange-400 hover:bg-orange-950/30 rounded-xl h-7 gap-1.5"
+                                            >
+                                                <Download size={12} />PDF
+                                            </Button>
+                                            <Button
+                                                variant="ghost" size="sm"
+                                                onClick={() => setShowRegenForm((v) => !v)}
+                                                className="text-xs text-zinc-400 hover:text-white hover:bg-white/5 rounded-xl h-7"
+                                            >
+                                                {showRegenForm ? "Cancel" : "Regenerate"}
                                             </Button>
                                         </div>
                                     )}
+                                </div>
+                            </CardHeader>
+                            <CardContent>
+                                {studyPlan ? (
+                                    <div className="space-y-4">
 
-                                    {/* Day cards — 4 visible by default, expand to see all */}
-                                    <div className="grid grid-cols-2 gap-3">
-                                        {studyPlan.roadmap.slice(0, planExpanded ? studyPlan.roadmap.length : 4).map((day) => (
-                                            <div key={day.day} className="p-4 bg-zinc-950/40 rounded-xl border border-white/5 backdrop-blur-md">
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <span className={`w-2 h-2 rounded-full ${day.revision ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" : "bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.8)]"}`} />
-                                                    <span className={`text-xs font-semibold tracking-wide uppercase ${day.revision ? "text-red-400" : "text-orange-400"}`}>
-                                                        Day {day.day} · {day.revision ? "Revision" : "New Material"}
-                                                    </span>
+                                        {/* Plan summary badges */}
+                                        <div className="flex flex-wrap gap-2">
+                                            {studyPlan.targetRole && (
+                                                <span className="text-xs px-2.5 py-1 bg-orange-950/40 text-orange-400 border border-orange-900/50 rounded-lg font-medium shadow-[0_0_10px_rgba(249,115,22,0.1)]">
+                                                    {studyPlan.targetRole}
+                                                </span>
+                                            )}
+                                            {studyPlan.interviewDate && (
+                                                <span className="text-xs px-2.5 py-1 bg-zinc-900/50 text-zinc-400 border border-zinc-800 rounded-lg">
+                                                    Interview: {new Date(studyPlan.interviewDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                                                </span>
+                                            )}
+                                            <span className="text-xs px-2.5 py-1 bg-amber-950/40 text-amber-500 border border-amber-900/50 rounded-lg shadow-[0_0_10px_rgba(245,158,11,0.1)]">
+                                                {studyPlan.roadmap.length} days
+                                            </span>
+                                        </div>
+
+                                        {/* Inline regenerate form */}
+                                        {showRegenForm && (
+                                            <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3">
+                                                <div className="grid grid-cols-3 gap-3">
+                                                    <div className="space-y-1">
+                                                        <label className="text-xs font-medium text-gray-600">Target Role</label>
+                                                        <Input value={planForm.targetRole} onChange={(e) => setPlanForm((p) => ({ ...p, targetRole: e.target.value }))} className="text-xs rounded-xl h-8" />
+                                                    </div>
+                                                    <div className="space-y-1">
+                                                        <label className="text-xs font-medium text-gray-600">Interview Date</label>
+                                                        <Input type="date" value={planForm.interviewDate} onChange={(e) => setPlanForm((p) => ({ ...p, interviewDate: e.target.value }))} className="text-xs rounded-xl h-8" />
+                                                    </div>
+                                                    <div className="space-y-1">
+                                                        <label className="text-xs font-medium text-gray-600">Hours / Day</label>
+                                                        <Input type="number" min={1} max={16} value={planForm.hoursPerDay} onChange={(e) => setPlanForm((p) => ({ ...p, hoursPerDay: parseInt(e.target.value) || 4 }))} className="text-xs rounded-xl h-8" />
+                                                    </div>
                                                 </div>
-                                                <p className="text-sm font-bold text-white mb-2">{day.focus}</p>
-                                                <ul className="space-y-1">
-                                                    {day.tasks.map((task, i) => (
-                                                        <li key={i} className="text-xs text-zinc-400 flex gap-1.5">
-                                                            <span className="text-orange-500 shrink-0">·</span>
-                                                            <span>{task}</span>
-                                                        </li>
-                                                    ))}
-                                                </ul>
+                                                <Button onClick={handleGeneratePlan} disabled={generating} size="sm" className="rounded-xl h-7 text-xs">
+                                                    {generating ? <><Loader2 size={11} className="mr-1.5 animate-spin" />Generating…</> : "Generate New Plan"}
+                                                </Button>
                                             </div>
-                                        ))}
-                                    </div>
+                                        )}
 
-                                    {/* Expand / Collapse */}
-                                    {studyPlan.roadmap.length > 4 && (
-                                        <button
-                                            onClick={() => setPlanExpanded((v) => !v)}
-                                            className="flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors"
-                                        >
-                                            {planExpanded
-                                                ? <><ChevronUp size={13} />Show less</>
-                                                : <><ChevronDown size={13} />View all {studyPlan.roadmap.length} days</>}
-                                        </button>
-                                    )}
-                                </div>
-                            ) : (
-                                /* No plan yet — generate form */
-                                <div className="space-y-4">
-                                    <p className="text-sm text-zinc-400">Generate a personalised 14-day VLSI study roadmap targeted to your weak areas.</p>
-                                    <div className="grid grid-cols-3 gap-4">
-                                        <div className="space-y-1.5">
-                                            <label className="text-xs font-medium text-zinc-500">Target Role</label>
-                                            <Input value={planForm.targetRole} onChange={(e) => setPlanForm((p) => ({ ...p, targetRole: e.target.value }))} className="text-sm rounded-xl bg-zinc-950/50 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500" placeholder="RTL Design Engineer" />
+                                        {/* Day cards — 4 visible by default, expand to see all */}
+                                        <div className="grid grid-cols-2 gap-3">
+                                            {studyPlan.roadmap.slice(0, planExpanded ? studyPlan.roadmap.length : 4).map((day) => (
+                                                <div key={day.day} className="p-4 bg-zinc-950/40 rounded-xl border border-white/5 backdrop-blur-md">
+                                                    <div className="flex items-center gap-2 mb-2">
+                                                        <span className={`w-2 h-2 rounded-full ${day.revision ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]" : "bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.8)]"}`} />
+                                                        <span className={`text-xs font-semibold tracking-wide uppercase ${day.revision ? "text-red-400" : "text-orange-400"}`}>
+                                                            Day {day.day} · {day.revision ? "Revision" : "New Material"}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-sm font-bold text-white mb-2">{day.focus}</p>
+                                                    <ul className="space-y-1">
+                                                        {day.tasks.map((task, i) => (
+                                                            <li key={i} className="text-xs text-zinc-400 flex gap-1.5">
+                                                                <span className="text-orange-500 shrink-0">·</span>
+                                                                <span>{task}</span>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            ))}
                                         </div>
-                                        <div className="space-y-1.5">
-                                            <label className="text-xs font-medium text-zinc-500">Interview Date</label>
-                                            <Input type="date" value={planForm.interviewDate} onChange={(e) => setPlanForm((p) => ({ ...p, interviewDate: e.target.value }))} className="text-sm rounded-xl bg-zinc-950/50 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500" />
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <label className="text-xs font-medium text-zinc-500">Hours / Day</label>
-                                            <Input type="number" min={1} max={16} value={planForm.hoursPerDay} onChange={(e) => setPlanForm((p) => ({ ...p, hoursPerDay: parseInt(e.target.value) || 4 }))} className="text-sm rounded-xl bg-zinc-950/50 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500" />
-                                        </div>
+
+                                        {/* Expand / Collapse */}
+                                        {studyPlan.roadmap.length > 4 && (
+                                            <button
+                                                onClick={() => setPlanExpanded((v) => !v)}
+                                                className="flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                                            >
+                                                {planExpanded
+                                                    ? <><ChevronUp size={13} />Show less</>
+                                                    : <><ChevronDown size={13} />View all {studyPlan.roadmap.length} days</>}
+                                            </button>
+                                        )}
                                     </div>
-                                    {genError && <p className="text-xs text-red-400 bg-red-950/40 border border-red-900/50 rounded-xl px-3 py-2">{genError}</p>}
-                                    <Button onClick={handleGeneratePlan} disabled={generating} size="sm" className="rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black border-0 shadow-[0_0_15px_rgba(249,115,22,0.4)]">
-                                        {generating ? <><Loader2 size={13} className="mr-2 animate-spin text-black" />Generating…</> : "Generate Study Plan"}
-                                    </Button>
-                                </div>
-                            )}
-                        </CardContent>
-                    </Card>
+                                ) : (
+                                    /* No plan yet — generate form */
+                                    <div className="space-y-4">
+                                        <p className="text-sm text-zinc-400">Generate a personalised 14-day VLSI study roadmap targeted to your weak areas.</p>
+                                        <div className="grid grid-cols-3 gap-4">
+                                            <div className="space-y-1.5">
+                                                <label className="text-xs font-medium text-zinc-500">Target Role</label>
+                                                <Input value={planForm.targetRole} onChange={(e) => setPlanForm((p) => ({ ...p, targetRole: e.target.value }))} className="text-sm rounded-xl bg-zinc-950/50 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500" placeholder="RTL Design Engineer" />
+                                            </div>
+                                            <div className="space-y-1.5">
+                                                <label className="text-xs font-medium text-zinc-500">Interview Date</label>
+                                                <Input type="date" value={planForm.interviewDate} onChange={(e) => setPlanForm((p) => ({ ...p, interviewDate: e.target.value }))} className="text-sm rounded-xl bg-zinc-950/50 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500" />
+                                            </div>
+                                            <div className="space-y-1.5">
+                                                <label className="text-xs font-medium text-zinc-500">Hours / Day</label>
+                                                <Input type="number" min={1} max={16} value={planForm.hoursPerDay} onChange={(e) => setPlanForm((p) => ({ ...p, hoursPerDay: parseInt(e.target.value) || 4 }))} className="text-sm rounded-xl bg-zinc-950/50 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500" />
+                                            </div>
+                                        </div>
+                                        {genError && <p className="text-xs text-red-400 bg-red-950/40 border border-red-900/50 rounded-xl px-3 py-2">{genError}</p>}
+                                        <Button onClick={handleGeneratePlan} disabled={generating} size="sm" className="rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black border-0 shadow-[0_0_15px_rgba(249,115,22,0.4)]">
+                                            {generating ? <><Loader2 size={13} className="mr-2 animate-spin text-black" />Generating…</> : "Generate Study Plan"}
+                                        </Button>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
 
                 {/* ── Quick Tutor ── */}
                 <div className="col-span-12">
-                    <Card className="rounded-3xl border border-white/5 bg-emerald-950/80 backdrop-blur-md shadow-2xl relative overflow-hidden group hover:border-emerald-500/30 transition-all duration-500">
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-base font-semibold text-white">Quick Tutor</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="flex gap-3">
-                                <Input
-                                    placeholder="Ask a VLSI concept… e.g. What is metastability?"
-                                    value={tutorQ}
-                                    onChange={(e) => setTutorQ(e.target.value)}
-                                    onKeyDown={(e) => { if (e.key === "Enter") handleTutorAsk(); }}
-                                    className="rounded-xl bg-zinc-950/50 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500"
-                                />
-                                <Button onClick={handleTutorAsk} disabled={tutorLoading || !tutorQ.trim()} size="sm" className="rounded-xl shrink-0 px-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black border-0 shadow-[0_0_15px_rgba(249,115,22,0.4)]">
-                                    {tutorLoading ? <Loader2 size={14} className="animate-spin text-black" /> : <Send size={14} className="text-black" />}
-                                </Button>
-                            </div>
-
-                            {tutorResponse && (
-                                <div className="border border-white/10 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-                                    <button
-                                        onClick={() => setExpanded((e) => !e)}
-                                        className="w-full flex items-center justify-between px-4 py-3 bg-zinc-950/60 backdrop-blur-md text-sm font-medium text-zinc-300 hover:bg-zinc-900/80 transition-colors border-b border-white/5"
-                                    >
-                                        <span>AI Response</span>
-                                        {expanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
-                                    </button>
-                                    {expanded && (
-                                        <div className="p-5 space-y-4 divide-y divide-white/5 bg-zinc-950/40 backdrop-blur-md">
-                                            {([
-                                                { key: "concept", label: "Concept" },
-                                                { key: "analogy", label: "Analogy" },
-                                                { key: "example", label: "Example" },
-                                                { key: "miniQuiz", label: "Mini Quiz" },
-                                            ] as const).map(({ key, label }) => (
-                                                <div key={key} className="pt-4 first:pt-0">
-                                                    <span className="text-[10px] font-bold text-orange-500 uppercase tracking-widest">{label}</span>
-                                                    <p className="text-sm text-zinc-300 mt-1.5 leading-relaxed">{tutorResponse[key]}</p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
+                    <div className="relative rounded-3xl p-[1px] overflow-hidden group shadow-2xl">
+                        <div className="absolute inset-0 bg-[conic-gradient(from_0deg_at_50%_50%,transparent_0%,transparent_75%,#10b981_100%)] animate-[spin_4s_linear_infinite]" />
+                        <Card className="rounded-[calc(1.5rem-1px)] border-0 bg-emerald-950/60 backdrop-blur-3xl relative z-10 transition-all duration-500">
+                            <CardHeader className="pb-2">
+                                <CardTitle className="text-base font-semibold text-white">Quick Tutor</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="flex gap-3">
+                                    <Input
+                                        placeholder="Ask a VLSI concept… e.g. What is metastability?"
+                                        value={tutorQ}
+                                        onChange={(e) => setTutorQ(e.target.value)}
+                                        onKeyDown={(e) => { if (e.key === "Enter") handleTutorAsk(); }}
+                                        className="rounded-xl bg-zinc-950/50 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500"
+                                    />
+                                    <Button onClick={handleTutorAsk} disabled={tutorLoading || !tutorQ.trim()} size="sm" className="rounded-xl shrink-0 px-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black border-0 shadow-[0_0_15px_rgba(249,115,22,0.4)]">
+                                        {tutorLoading ? <Loader2 size={14} className="animate-spin text-black" /> : <Send size={14} className="text-black" />}
+                                    </Button>
                                 </div>
-                            )}
-                        </CardContent>
-                    </Card>
+
+                                {tutorResponse && (
+                                    <div className="border border-white/10 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+                                        <button
+                                            onClick={() => setExpanded((e) => !e)}
+                                            className="w-full flex items-center justify-between px-4 py-3 bg-zinc-950/60 backdrop-blur-md text-sm font-medium text-zinc-300 hover:bg-zinc-900/80 transition-colors border-b border-white/5"
+                                        >
+                                            <span>AI Response</span>
+                                            {expanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+                                        </button>
+                                        {expanded && (
+                                            <div className="p-5 space-y-4 divide-y divide-white/5 bg-zinc-950/40 backdrop-blur-md">
+                                                {([
+                                                    { key: "concept", label: "Concept" },
+                                                    { key: "analogy", label: "Analogy" },
+                                                    { key: "example", label: "Example" },
+                                                    { key: "miniQuiz", label: "Mini Quiz" },
+                                                ] as const).map(({ key, label }) => (
+                                                    <div key={key} className="pt-4 first:pt-0">
+                                                        <span className="text-[10px] font-bold text-orange-500 uppercase tracking-widest">{label}</span>
+                                                        <p className="text-sm text-zinc-300 mt-1.5 leading-relaxed">{tutorResponse[key]}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
 
             </div>
