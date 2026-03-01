@@ -137,12 +137,11 @@ function Navbar() {
 function HeroSection() {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 1000], [0, 150]);
-  const opacity1 = useTransform(scrollY, [0, 400], [1, 0]);
 
   return (
     <section className="relative pt-44 pb-16 px-4 overflow-hidden">
       <motion.div
-        style={{ y: y1, opacity: opacity1 }}
+        style={{ y: y1 }}
         className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-8 items-start lg:pt-10"
       >
         {/* Left Text */}
