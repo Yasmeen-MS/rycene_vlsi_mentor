@@ -189,8 +189,8 @@ function DashboardContent() {
         <div className="space-y-6 relative rounded-3xl p-6 overflow-hidden">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-white tracking-tight">Dashboard</h1>
-                <p className="text-sm text-zinc-400 mt-0.5">Your VLSI readiness overview</p>
+                <h1 className="text-3xl font-extrabold text-white tracking-normal drop-shadow-sm">Dashboard</h1>
+                <p className="text-sm font-medium text-zinc-400 mt-1">Your VLSI readiness overview</p>
             </div>
 
             {/* ── Stat cards ── */}

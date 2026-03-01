@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/layout/AuthProvider";
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${jakarta.variable} ${jetbrainsMono.variable} antialiased font-sans`}>
+      <body className={`${outfit.variable} ${jetbrainsMono.variable} antialiased font-sans`}>
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
