@@ -263,14 +263,14 @@ function ProblemSection() {
       <div className="w-full bg-black py-10 border-t border-white/5 relative z-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-8">
-            Trusted by the best engineers around the world
+            Preparing engineers for core VLSI domains
           </div>
-          <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20 opacity-40 grayscale transition-all duration-500 hover:grayscale-0 hover:opacity-100">
-            {/* Abstract placeholder logos mimicking the reference image style */}
-            <div className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><span className="text-2xl">⚡</span> NVIDIA</div>
-            <div className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><span className="text-2xl">🔬</span> Intel</div>
-            <div className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><span className="text-2xl">📱</span> Qualcomm</div>
-            <div className="text-xl font-bold tracking-tight text-white flex items-center gap-2"><span className="text-2xl">🖥️</span> AMD</div>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 transition-all duration-500 hover:opacity-100">
+            {/* Domain placeholders mimicking the reference image style without using copyrighted logos */}
+            <div className="text-lg lg:text-xl font-bold tracking-tight text-zinc-300 flex items-center gap-2"><span className="text-orange-500/80">⚡</span> RTL Design</div>
+            <div className="text-lg lg:text-xl font-bold tracking-tight text-zinc-300 flex items-center gap-2"><span className="text-orange-500/80">🔬</span> Verification</div>
+            <div className="text-lg lg:text-xl font-bold tracking-tight text-zinc-300 flex items-center gap-2"><span className="text-orange-500/80">⚙️</span> Physical Design</div>
+            <div className="text-lg lg:text-xl font-bold tracking-tight text-zinc-300 flex items-center gap-2"><span className="text-orange-500/80">🖥️</span> DFT Check</div>
           </div>
         </div>
       </div>
