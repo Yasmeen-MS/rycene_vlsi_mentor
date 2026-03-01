@@ -143,7 +143,7 @@ function HeroSection() {
     <section className="relative pt-44 pb-16 px-4 overflow-hidden">
       <motion.div
         style={{ y: y1, opacity: opacity1 }}
-        className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-8 items-center"
+        className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-8 items-start lg:pt-10"
       >
         {/* Left Text */}
         <motion.div
@@ -152,11 +152,14 @@ function HeroSection() {
           animate="visible"
           className="space-y-8 relative z-10"
         >
-          <motion.div variants={fadeUp}>
-            <span className="inline-flex items-center gap-2 border border-orange-500/20 bg-orange-500/5 text-orange-400/90 text-[11px] font-bold px-3.5 py-1.5 rounded-full tracking-widest backdrop-blur-sm shadow-[0_0_20px_rgba(249,115,22,0.1)]">
-              <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.8)]" />
-              AI-POWERED VLSI EDUCATION
-            </span>
+          <motion.div variants={fadeUp} className="relative inline-block">
+            <div className="relative inline-flex overflow-hidden rounded-full p-[1px] shadow-[0_0_20px_rgba(249,115,22,0.25)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] transition-shadow duration-300">
+              <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#f97316_0%,#000000_50%,#fbf2ed_100%)] opacity-80" />
+              <span className="inline-flex h-full w-full items-center gap-2 rounded-full bg-zinc-950/90 px-4 py-1.5 text-[11px] font-black tracking-widest text-orange-400 uppercase backdrop-blur-3xl">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse shadow-[0_0_8px_rgba(249,115,22,0.8)]" />
+                AI-Powered VLSI Education
+              </span>
+            </div>
           </motion.div>
 
           <motion.h1
