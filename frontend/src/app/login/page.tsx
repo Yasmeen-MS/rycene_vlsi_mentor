@@ -26,62 +26,86 @@ function BackgroundLogicGates() {
     if (!mounted) return null;
 
     return (
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-40">
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-50" style={{ perspective: "1000px" }}>
+            {/* SVG Definitions for Metallic Steel Finish */}
+            <svg width="0" height="0" className="absolute">
+                <defs>
+                    <linearGradient id="steel-orange" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#4a423e" />
+                        <stop offset="20%" stopColor="#a38779" />
+                        <stop offset="50%" stopColor="#2e2622" />
+                        <stop offset="80%" stopColor="#c27e5d" />
+                        <stop offset="100%" stopColor="#1a1513" />
+                    </linearGradient>
+                    <linearGradient id="steel-amber" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#524a3e" />
+                        <stop offset="25%" stopColor="#9e8a6e" />
+                        <stop offset="50%" stopColor="#2e2922" />
+                        <stop offset="75%" stopColor="#c2945d" />
+                        <stop offset="100%" stopColor="#1f1b16" />
+                    </linearGradient>
+                </defs>
+            </svg>
+
             {/* Floating AND Gate */}
             <motion.div
-                animate={{ y: [-20, 20, -20], rotate: [10, 15, 10] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-[15%] left-[10%] w-40 h-40 text-orange-500/30"
+                animate={{ y: [-30, 30, -30], rotateX: [10, 40, 10], rotateY: [-20, 20, -20], rotateZ: [5, 15, 5] }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-[15%] left-[10%] w-48 h-48 drop-shadow-[0_20px_30px_rgba(249,115,22,0.3)]"
+                style={{ transformStyle: "preserve-3d" }}
             >
-                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_15px_rgba(249,115,22,0.2)]">
-                    <path d="M 20 20 L 50 20 A 30 30 0 0 1 50 80 L 20 80 Z" fill="rgba(20,20,20,0.8)" stroke="currentColor" strokeWidth="2" />
-                    <line x1="0" y1="35" x2="20" y2="35" stroke="currentColor" strokeWidth="2" />
-                    <line x1="0" y1="65" x2="20" y2="65" stroke="currentColor" strokeWidth="2" />
-                    <line x1="80" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="2" />
+                <svg viewBox="0 0 100 100" className="w-full h-full opacity-80">
+                    <path d="M 20 20 L 50 20 A 30 30 0 0 1 50 80 L 20 80 Z" fill="url(#steel-orange)" stroke="#f97316" strokeWidth="1" strokeOpacity="0.5" />
+                    <line x1="0" y1="35" x2="20" y2="35" stroke="url(#steel-orange)" strokeWidth="4" />
+                    <line x1="0" y1="65" x2="20" y2="65" stroke="url(#steel-orange)" strokeWidth="4" />
+                    <line x1="80" y1="50" x2="100" y2="50" stroke="url(#steel-orange)" strokeWidth="4" />
                 </svg>
             </motion.div>
 
             {/* Floating OR Gate */}
             <motion.div
-                animate={{ y: [20, -20, 20], rotate: [-10, -5, -10] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                className="absolute top-[20%] right-[10%] w-48 h-48 text-amber-500/30"
+                animate={{ y: [40, -40, 40], rotateX: [-15, 30, -15], rotateY: [30, -10, 30], rotateZ: [-15, -5, -15] }}
+                transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                className="absolute top-[20%] right-[10%] w-56 h-56 drop-shadow-[0_25px_40px_rgba(245,158,11,0.25)]"
+                style={{ transformStyle: "preserve-3d" }}
             >
-                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_15px_rgba(249,115,22,0.2)]">
-                    <path d="M 20 20 Q 35 50 20 80 Q 70 80 80 50 Q 70 20 20 20" fill="rgba(20,20,20,0.8)" stroke="currentColor" strokeWidth="2" />
-                    <line x1="0" y1="35" x2="24" y2="35" stroke="currentColor" strokeWidth="2" />
-                    <line x1="0" y1="65" x2="24" y2="65" stroke="currentColor" strokeWidth="2" />
-                    <line x1="80" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="2" />
+                <svg viewBox="0 0 100 100" className="w-full h-full opacity-80">
+                    <path d="M 20 20 Q 35 50 20 80 Q 70 80 80 50 Q 70 20 20 20" fill="url(#steel-amber)" stroke="#f59e0b" strokeWidth="1" strokeOpacity="0.5" />
+                    <line x1="0" y1="35" x2="24" y2="35" stroke="url(#steel-amber)" strokeWidth="4" />
+                    <line x1="0" y1="65" x2="24" y2="65" stroke="url(#steel-amber)" strokeWidth="4" />
+                    <line x1="80" y1="50" x2="100" y2="50" stroke="url(#steel-amber)" strokeWidth="4" />
                 </svg>
             </motion.div>
 
             {/* Floating XOR Gate */}
             <motion.div
-                animate={{ x: [-20, 20, -20], y: [-10, 10, -10], rotate: [45, 50, 45] }}
-                transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-                className="absolute bottom-[20%] left-[20%] w-32 h-32 text-orange-400/20"
+                animate={{ x: [-30, 30, -30], y: [-20, 20, -20], rotateX: [30, -30, 30], rotateY: [-40, 40, -40], rotateZ: [30, 60, 30] }}
+                transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+                className="absolute bottom-[20%] left-[20%] w-40 h-40 drop-shadow-[0_15px_30px_rgba(251,146,60,0.2)]"
+                style={{ transformStyle: "preserve-3d" }}
             >
-                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_15px_rgba(249,115,22,0.2)]">
-                    <path d="M 10 20 Q 25 50 10 80" fill="none" stroke="currentColor" strokeWidth="2" />
-                    <path d="M 20 20 Q 35 50 20 80 Q 70 80 80 50 Q 70 20 20 20" fill="rgba(20,20,20,0.8)" stroke="currentColor" strokeWidth="2" />
-                    <line x1="0" y1="35" x2="14" y2="35" stroke="currentColor" strokeWidth="2" />
-                    <line x1="0" y1="65" x2="14" y2="65" stroke="currentColor" strokeWidth="2" />
-                    <line x1="80" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="2" />
+                <svg viewBox="0 0 100 100" className="w-full h-full opacity-70">
+                    <path d="M 10 20 Q 25 50 10 80" fill="none" stroke="url(#steel-orange)" strokeWidth="3" />
+                    <path d="M 20 20 Q 35 50 20 80 Q 70 80 80 50 Q 70 20 20 20" fill="url(#steel-orange)" stroke="#fb923c" strokeWidth="1" strokeOpacity="0.5" />
+                    <line x1="0" y1="35" x2="14" y2="35" stroke="url(#steel-orange)" strokeWidth="4" />
+                    <line x1="0" y1="65" x2="14" y2="65" stroke="url(#steel-orange)" strokeWidth="4" />
+                    <line x1="80" y1="50" x2="100" y2="50" stroke="url(#steel-orange)" strokeWidth="4" />
                 </svg>
             </motion.div>
 
             {/* Floating NAND Gate */}
             <motion.div
-                animate={{ x: [20, -20, 20], rotate: [-20, -15, -20] }}
-                transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute bottom-[15%] right-[20%] w-36 h-36 text-amber-600/20"
+                animate={{ x: [40, -40, 40], rotateX: [-40, 10, -40], rotateY: [20, -30, 20], rotateZ: [-20, -5, -20] }}
+                transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute bottom-[13%] right-[18%] w-44 h-44 drop-shadow-[0_20px_35px_rgba(217,119,6,0.25)]"
+                style={{ transformStyle: "preserve-3d" }}
             >
-                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_15px_rgba(249,115,22,0.2)]">
-                    <path d="M 20 20 L 50 20 A 30 30 0 0 1 50 80 L 20 80 Z" fill="rgba(20,20,20,0.8)" stroke="currentColor" strokeWidth="2" />
-                    <circle cx="85" cy="50" r="5" fill="none" stroke="currentColor" strokeWidth="2" />
-                    <line x1="0" y1="35" x2="20" y2="35" stroke="currentColor" strokeWidth="2" />
-                    <line x1="0" y1="65" x2="20" y2="65" stroke="currentColor" strokeWidth="2" />
-                    <line x1="90" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="2" />
+                <svg viewBox="0 0 100 100" className="w-full h-full opacity-80">
+                    <path d="M 20 20 L 50 20 A 30 30 0 0 1 50 80 L 20 80 Z" fill="url(#steel-amber)" stroke="#d97706" strokeWidth="1" strokeOpacity="0.5" />
+                    <circle cx="85" cy="50" r="5" fill="url(#steel-amber)" stroke="#d97706" strokeWidth="1.5" />
+                    <line x1="0" y1="35" x2="20" y2="35" stroke="url(#steel-amber)" strokeWidth="4" />
+                    <line x1="0" y1="65" x2="20" y2="65" stroke="url(#steel-amber)" strokeWidth="4" />
+                    <line x1="90" y1="50" x2="100" y2="50" stroke="url(#steel-amber)" strokeWidth="4" />
                 </svg>
             </motion.div>
         </div>
