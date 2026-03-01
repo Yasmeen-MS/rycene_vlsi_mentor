@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import {
     signInWithEmailAndPassword,
@@ -19,6 +19,74 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
 type Mode = "login" | "register";
+
+function BackgroundLogicGates() {
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+    if (!mounted) return null;
+
+    return (
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-40">
+            {/* Floating AND Gate */}
+            <motion.div
+                animate={{ y: [-20, 20, -20], rotate: [10, 15, 10] }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-[15%] left-[10%] w-40 h-40 text-orange-500/30"
+            >
+                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_15px_rgba(249,115,22,0.2)]">
+                    <path d="M 20 20 L 50 20 A 30 30 0 0 1 50 80 L 20 80 Z" fill="rgba(20,20,20,0.8)" stroke="currentColor" strokeWidth="2" />
+                    <line x1="0" y1="35" x2="20" y2="35" stroke="currentColor" strokeWidth="2" />
+                    <line x1="0" y1="65" x2="20" y2="65" stroke="currentColor" strokeWidth="2" />
+                    <line x1="80" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="2" />
+                </svg>
+            </motion.div>
+
+            {/* Floating OR Gate */}
+            <motion.div
+                animate={{ y: [20, -20, 20], rotate: [-10, -5, -10] }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                className="absolute top-[20%] right-[10%] w-48 h-48 text-amber-500/30"
+            >
+                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_15px_rgba(249,115,22,0.2)]">
+                    <path d="M 20 20 Q 35 50 20 80 Q 70 80 80 50 Q 70 20 20 20" fill="rgba(20,20,20,0.8)" stroke="currentColor" strokeWidth="2" />
+                    <line x1="0" y1="35" x2="24" y2="35" stroke="currentColor" strokeWidth="2" />
+                    <line x1="0" y1="65" x2="24" y2="65" stroke="currentColor" strokeWidth="2" />
+                    <line x1="80" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="2" />
+                </svg>
+            </motion.div>
+
+            {/* Floating XOR Gate */}
+            <motion.div
+                animate={{ x: [-20, 20, -20], y: [-10, 10, -10], rotate: [45, 50, 45] }}
+                transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+                className="absolute bottom-[20%] left-[20%] w-32 h-32 text-orange-400/20"
+            >
+                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_15px_rgba(249,115,22,0.2)]">
+                    <path d="M 10 20 Q 25 50 10 80" fill="none" stroke="currentColor" strokeWidth="2" />
+                    <path d="M 20 20 Q 35 50 20 80 Q 70 80 80 50 Q 70 20 20 20" fill="rgba(20,20,20,0.8)" stroke="currentColor" strokeWidth="2" />
+                    <line x1="0" y1="35" x2="14" y2="35" stroke="currentColor" strokeWidth="2" />
+                    <line x1="0" y1="65" x2="14" y2="65" stroke="currentColor" strokeWidth="2" />
+                    <line x1="80" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="2" />
+                </svg>
+            </motion.div>
+
+            {/* Floating NAND Gate */}
+            <motion.div
+                animate={{ x: [20, -20, 20], rotate: [-20, -15, -20] }}
+                transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute bottom-[15%] right-[20%] w-36 h-36 text-amber-600/20"
+            >
+                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_10px_15px_rgba(249,115,22,0.2)]">
+                    <path d="M 20 20 L 50 20 A 30 30 0 0 1 50 80 L 20 80 Z" fill="rgba(20,20,20,0.8)" stroke="currentColor" strokeWidth="2" />
+                    <circle cx="85" cy="50" r="5" fill="none" stroke="currentColor" strokeWidth="2" />
+                    <line x1="0" y1="35" x2="20" y2="35" stroke="currentColor" strokeWidth="2" />
+                    <line x1="0" y1="65" x2="20" y2="65" stroke="currentColor" strokeWidth="2" />
+                    <line x1="90" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="2" />
+                </svg>
+            </motion.div>
+        </div>
+    );
+}
 
 export default function LoginPage() {
     const router = useRouter();
@@ -65,6 +133,9 @@ export default function LoginPage() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-600/20 rounded-full blur-[120px] pointer-events-none animate-pulse" />
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-orange-900/10 rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-amber-600/10 rounded-full blur-[120px] pointer-events-none" />
+
+            {/* Hardware logic gates floating background */}
+            <BackgroundLogicGates />
 
             <div className="w-full max-w-md relative z-10 px-4">
                 {/* Brand */}
