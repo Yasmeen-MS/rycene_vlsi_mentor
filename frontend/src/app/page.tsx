@@ -219,38 +219,81 @@ function HeroSection() {
           </motion.div>
         </motion.div>
 
-        {/* Right Illustration */}
+        {/* Right Illustration & Floating Elements */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, rotateY: -15, rotateX: 5 }}
-          animate={{ opacity: 1, scale: 1, rotateY: 0, rotateX: 0 }}
+          initial={{ opacity: 0, scale: 0.95, y: 30 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          className="relative w-full aspect-square max-w-[500px] mx-auto lg:ml-auto"
-          style={{ perspective: 1000 }}
+          className="relative w-full max-w-[500px] mx-auto lg:ml-auto aspect-[4/5] mt-8 lg:mt-0"
         >
+          {/* Decorative curved background lines mimicking the reference */}
+          <svg className="absolute -inset-20 z-0 opacity-20 pointer-events-none" viewBox="0 0 500 500">
+            <path d="M 0 500 Q 250 100 500 0" fill="transparent" stroke="#f97316" strokeWidth="1" strokeDasharray="4 4" />
+            <path d="M -100 300 Q 250 450 600 200" fill="transparent" stroke="#f97316" strokeWidth="0.5" />
+          </svg>
+
+          {/* Main Arched Image Frame */}
           <motion.div
             animate={{
-              y: [-10, 10, -10],
-              rotateZ: [-1, 1, -1]
+              y: [-8, 8, -8],
             }}
             transition={{
               repeat: Infinity,
-              duration: 6,
+              duration: 7,
               ease: "easeInOut"
             }}
-            className="relative w-full h-full rounded-[2rem] overflow-hidden border border-white/10 bg-zinc-950 shadow-[0_0_80px_rgba(249,115,22,0.15)] group"
+            className="relative w-full h-full rounded-tl-[120px] rounded-br-[120px] rounded-tr-[32px] rounded-bl-[32px] overflow-hidden border border-white/10 bg-gradient-to-br from-orange-950/40 to-black shadow-[0_32px_80px_rgba(249,115,22,0.15)] group z-10"
           >
-            {/* Glow ring behind image */}
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-amber-500/10 to-transparent blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-700" />
+            {/* Inner Glow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 via-amber-500/10 to-transparent blur-3xl opacity-60 group-hover:opacity-90 transition-opacity duration-700" />
 
             <Image
               src="/hero.png"
               alt="VLSI AI Platform Visualization"
               fill
-              className="object-cover object-center scale-105 group-hover:scale-110 transition-transform duration-1000 ease-out"
+              className="object-cover object-center scale-105 group-hover:scale-110 transition-transform duration-1000 ease-out opacity-90 mix-blend-screen"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-            <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute inset-0 rounded-tl-[120px] rounded-br-[120px] rounded-tr-[32px] rounded-bl-[32px] ring-1 ring-inset ring-white/10 pointer-events-none" />
+          </motion.div>
+
+          {/* Floating Element 1: 3D Sparkle / Star */}
+          <motion.div
+            animate={{
+              rotate: 360,
+              y: [-5, 5, -5]
+            }}
+            transition={{
+              rotate: { repeat: Infinity, duration: 20, ease: "linear" },
+              y: { repeat: Infinity, duration: 4, ease: "easeInOut" }
+            }}
+            className="absolute top-1/4 -left-8 z-20 w-16 h-16 bg-white flex items-center justify-center text-orange-500 rounded-2xl shadow-[0_8px_32px_rgba(249,115,22,0.3)] rotate-12"
+            style={{ clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' }}
+          />
+
+          {/* Floating Element 2: Trust Badge (Bottom Right) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, x: 20 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="absolute -bottom-6 -right-6 z-20 flex items-center gap-3 bg-zinc-900/90 backdrop-blur-xl border border-white/10 p-3 pr-5 rounded-full shadow-[0_16px_40px_rgba(0,0,0,0.5)]"
+          >
+            <div className="flex -space-x-3">
+              <div className="w-10 h-10 rounded-full bg-zinc-800 border-2 border-zinc-900 shadow-sm overflow-hidden relative">
+                <Image src="/hero.png" alt="User" fill className="object-cover opacity-70" />
+              </div>
+              <div className="w-10 h-10 rounded-full bg-orange-950 border-2 border-zinc-900 shadow-sm flex items-center justify-center relative">
+                <span className="text-white text-xs font-bold">4.9</span>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-white border-2 border-zinc-900 shadow-sm flex items-center justify-center">
+                <span className="text-black text-xs font-black">★</span>
+              </div>
+            </div>
+            <div>
+              <div className="text-white text-xs font-bold leading-tight">Industry Rate</div>
+              <div className="text-zinc-500 text-[10px] leading-tight mt-0.5">Top Tier</div>
+            </div>
           </motion.div>
         </motion.div>
       </motion.div>
