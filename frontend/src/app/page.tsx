@@ -134,12 +134,47 @@ function Navbar() {
   );
 }
 
+function HeroParticles() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
+  return (
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {[...Array(30)].map((_, i) => (
+        <motion.div
+          key={i}
+          animate={{
+            opacity: [0, 0.3, 0],
+            y: [0, -100],
+            x: [0, Math.random() * 50 - 25]
+          }}
+          transition={{
+            duration: 6 + Math.random() * 10,
+            repeat: Infinity,
+            ease: "linear",
+            delay: Math.random() * 8
+          }}
+          className="absolute rounded-full bg-orange-500/50 shadow-[0_0_10px_rgba(249,115,22,0.8)]"
+          style={{
+            width: Math.random() * 3 + 1 + 'px',
+            height: Math.random() * 3 + 1 + 'px',
+            top: Math.random() * 100 + '%',
+            left: Math.random() * 100 + '%',
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 function HeroSection() {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 1000], [0, 150]);
 
   return (
     <section className="relative pt-44 pb-16 px-4 overflow-hidden">
+      <HeroParticles />
       <motion.div
         style={{ y: y1 }}
         className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-8 items-start lg:pt-10"
@@ -165,21 +200,21 @@ function HeroSection() {
             variants={fadeUp}
             className="text-[3.5rem] lg:text-[4.5rem] font-black text-white leading-[1.05] tracking-tight"
           >
-            Master{" "}
+            AI-Powered{" "}
             <span className="relative inline-block">
               <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-amber-400 to-orange-500">
-                VLSI Design
+                Skill Intelligence
               </span>
               <span className="absolute inset-x-0 bottom-2 h-3 bg-orange-500/20 blur-md -z-10" />
             </span>
-            <br />With AI Intelligence
+            <br />for VLSI Engineers
           </motion.h1>
 
           <motion.p
             variants={fadeUp}
             className="text-zinc-400 text-lg lg:text-xl leading-relaxed max-w-lg font-medium"
           >
-            Rycene AI closes the gap between academic learning and semiconductor industry readiness. Access personalized mentorship, real-time code evaluation, and adaptive study plans powered by Gemini AI.
+            From Learning Content to Measurable Competency. Rycene AI closes the gap between academic learning and semiconductor industry readiness through real-time code evaluation and AI mentorship.
           </motion.p>
 
           {/* CTA Buttons */}
