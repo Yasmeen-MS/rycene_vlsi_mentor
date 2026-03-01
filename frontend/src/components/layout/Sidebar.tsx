@@ -21,8 +21,8 @@ export default function Sidebar() {
             {/* Logo */}
             <div className="h-16 flex items-center px-6 border-b border-white/10 shrink-0">
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-[0_0_15px_rgba(234,88,12,0.4)]">
-                        <span className="text-white text-sm font-bold">R</span>
+                    <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-[0_0_15px_rgba(249,115,22,0.4)]">
+                        <span className="text-lg">🧠</span>
                     </div>
                     <span className="text-lg font-bold text-white tracking-wide">Rycene AI</span>
                 </div>
