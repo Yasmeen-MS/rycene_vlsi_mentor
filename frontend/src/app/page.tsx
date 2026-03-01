@@ -68,12 +68,12 @@ function HeroSection() {
           <motion.div
             initial="hidden"
             animate="visible"
-            custom={0}
             variants={fadeUp}
-            className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/30 rounded-full px-4 py-1.5 text-xs font-bold text-orange-400 uppercase tracking-widest"
           >
-            <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
-            AI-Powered VLSI Education Platform
+            <span className="inline-flex items-center gap-1.5 border border-zinc-700 text-zinc-400 text-xs font-medium px-3 py-1 rounded-md tracking-wide">
+              <span className="w-1.5 h-1.5 rounded-full bg-orange-500 inline-block" />
+              AI-Powered VLSI Education Platform
+            </span>
           </motion.div>
 
           <motion.h1
@@ -383,8 +383,6 @@ function HowItWorks() {
         </motion.div>
 
         <div className="relative">
-          {/* Connecting line */}
-          <div className="hidden lg:block absolute top-10 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-orange-500/40 to-transparent" />
 
           <div className="grid lg:grid-cols-4 gap-6">
             {steps.map(({ number, title, desc }, i) => (
@@ -397,11 +395,12 @@ function HowItWorks() {
                 variants={fadeUp}
                 className="relative text-center"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30 text-orange-400 font-black text-lg mb-5 shadow-[0_0_20px_rgba(249,115,22,0.15)]">
-                  {number}
+                <div className="flex flex-col items-center mb-4">
+                  <span className="text-xs font-bold text-orange-500/70 tracking-widest mb-1">{number}</span>
+                  <div className="w-8 h-px bg-orange-500/40" />
                 </div>
-                <h3 className="font-bold text-white mb-2">{title}</h3>
-                <p className="text-zinc-400 text-sm leading-relaxed">{desc}</p>
+                <h3 className="font-semibold text-white mb-2">{title}</h3>
+                <p className="text-zinc-500 text-sm leading-relaxed">{desc}</p>
               </motion.div>
             ))}
           </div>
