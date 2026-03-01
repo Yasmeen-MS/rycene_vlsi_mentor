@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── USER DOCUMENTS ───────────────────────────────────────────────────────
+    match /users/{userId} {
+      // Any authenticated user can read their own document
+      allow read: if request.auth != null && request.auth.uid == userId;
+
+      // Users CAN create their own document (on sign-up)
+      allow create: if request.auth != null && request.auth.uid == userId
+        && !("skillScores"      in request.resource.data)
+        && !("readinessScore"   in request.resource.data)
+        && !("confidenceScore"  in request.resource.data)
+        && !("weakTopics"       in request.resource.data);
+
+      // Users may update ONLY non-score profile fields (name, etc.)
+      // Score fields are BLOCKED from client writes entirely
+      allow update: if request.auth != null && request.auth.uid == userId
+        && !("skillScores"      in request.resource.data.diff(resource.data).affectedKeys())
+        && !("readinessScore"   in request.resource.data.diff(resource.data).affectedKeys())
+        && !("confidenceScore"  in request.resource.data.diff(resource.data).affectedKeys())
+        && !("weakTopics"       in request.resource.data.diff(resource.data).affectedKeys());
+
+      allow delete: if false;
+    }
+
+    // ─── SUBMISSIONS ──────────────────────────────────────────────────────────
+    match /submissions/{submissionId} {
+      // Users can read their own submissions
+      allow read: if request.auth != null
+        && resource.data.userId == request.auth.uid;
+
+      // Clients CANNOT write submissions — only Cloud Functions do
+      allow write: if false;
+    }
+
+    // ─── STUDY PLANS ──────────────────────────────────────────────────────────
+    match /studyPlans/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      // Only plan preferences (targetRole, interviewDate, hoursPerDay) may be
+      // written by the client; the roadmap array is written by Cloud Functions.
+      // For simplicity in MVP, clients may write the full document to trigger
+      // regeneration — the Cloud Function overwrites the roadmap field.
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // ─── CHAT SESSIONS ────────────────────────────────────────────────────────
+    match /chatSessions/{sessionId} {
+      allow read:  if request.auth != null
+        && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if request.auth != null
+        && resource.data.userId == request.auth.uid;
+      allow delete: if false;
+    }
+
+    // ─── DENY EVERYTHING ELSE ─────────────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

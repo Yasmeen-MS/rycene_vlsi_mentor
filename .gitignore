@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+ALL_KEYS.env
+functions/lib/
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+*.local
