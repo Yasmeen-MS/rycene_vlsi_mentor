@@ -140,12 +140,10 @@ graph TD
 
 Rycene AI was built by a passionate team of developers and VLSI enthusiasts dedicated to democratizing specialized education:
 
-* **[Team Lead / Architect Name]** — System Architecture & Concept
-* **[Frontend Engineer Name]** — UI/UX & Next.js Implementation
-* **[Backend Engineer Name]** — Firebase & AI Integration
-* **[VLSI Subject Matter Expert]** — Rubric Design & Prompt Engineering
+- **[Yasmeen MS](https://github.com/Yasmeen-MS)** — Full-Stack Engineering, AI Integration, & System Architecture
+- **Rachana P** — UI/UX Prototyping, Prompt Engineering, & QA
 
-*(Add your team's specific GitHub/LinkedIn links here to showcase your hard work!)*
+*(Contributions and PRs are always welcome from the community!)*
 
 ---
 
