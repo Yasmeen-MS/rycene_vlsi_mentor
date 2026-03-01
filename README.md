@@ -193,6 +193,10 @@ Rycene ditches the sterile, boring look of traditional LMS platforms. It utilize
 
 *Engineered with precision for the next generation of Semiconductor Innovators.*
 
-**[Yasmeen MS](https://github.com/Yasmeen-MS)** | 2026
+**Team Rycene**
+- **[Yasmeen MS](https://github.com/Yasmeen-MS)**
+- **Rachana P**
+
+© 2026
 
 </div>
