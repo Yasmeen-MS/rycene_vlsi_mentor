@@ -318,9 +318,11 @@ function DashboardContent() {
                                                 <Download size={12} />PDF
                                             </Button>
                                             <Button
-                                                variant="ghost" size="sm"
+                                                variant={showRegenForm ? "ghost" : "default"} size="sm"
                                                 onClick={() => setShowRegenForm((v) => !v)}
-                                                className="text-xs text-zinc-400 hover:text-white hover:bg-white/5 rounded-xl h-7"
+                                                className={showRegenForm
+                                                    ? "text-xs text-zinc-400 hover:text-white hover:bg-white/5 rounded-xl h-8 px-3"
+                                                    : "text-xs font-semibold rounded-xl h-8 px-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black border-0 shadow-[0_0_15px_rgba(249,115,22,0.4)]"}
                                             >
                                                 {showRegenForm ? "Cancel" : "Regenerate"}
                                             </Button>
@@ -351,23 +353,23 @@ function DashboardContent() {
 
                                         {/* Inline regenerate form */}
                                         {showRegenForm && (
-                                            <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3">
+                                            <div className="p-4 bg-zinc-950/60 backdrop-blur-md rounded-xl border border-white/5 space-y-3 shadow-inner">
                                                 <div className="grid grid-cols-3 gap-3">
                                                     <div className="space-y-1">
-                                                        <label className="text-xs font-medium text-gray-600">Target Role</label>
-                                                        <Input value={planForm.targetRole} onChange={(e) => setPlanForm((p) => ({ ...p, targetRole: e.target.value }))} className="text-xs rounded-xl h-8" />
+                                                        <label className="text-xs font-medium text-zinc-400">Target Role</label>
+                                                        <Input value={planForm.targetRole} onChange={(e) => setPlanForm((p) => ({ ...p, targetRole: e.target.value }))} className="text-xs rounded-xl h-8 bg-zinc-900/50 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500" />
                                                     </div>
                                                     <div className="space-y-1">
-                                                        <label className="text-xs font-medium text-gray-600">Interview Date</label>
-                                                        <Input type="date" value={planForm.interviewDate} onChange={(e) => setPlanForm((p) => ({ ...p, interviewDate: e.target.value }))} className="text-xs rounded-xl h-8" />
+                                                        <label className="text-xs font-medium text-zinc-400">Interview Date</label>
+                                                        <Input type="date" value={planForm.interviewDate} onChange={(e) => setPlanForm((p) => ({ ...p, interviewDate: e.target.value }))} className="text-xs rounded-xl h-8 bg-zinc-900/50 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500" />
                                                     </div>
                                                     <div className="space-y-1">
-                                                        <label className="text-xs font-medium text-gray-600">Hours / Day</label>
-                                                        <Input type="number" min={1} max={16} value={planForm.hoursPerDay} onChange={(e) => setPlanForm((p) => ({ ...p, hoursPerDay: parseInt(e.target.value) || 4 }))} className="text-xs rounded-xl h-8" />
+                                                        <label className="text-xs font-medium text-zinc-400">Hours / Day</label>
+                                                        <Input type="number" min={1} max={16} value={planForm.hoursPerDay} onChange={(e) => setPlanForm((p) => ({ ...p, hoursPerDay: parseInt(e.target.value) || 4 }))} className="text-xs rounded-xl h-8 bg-zinc-900/50 border-white/10 text-white placeholder:text-zinc-600 focus-visible:ring-orange-500" />
                                                     </div>
                                                 </div>
-                                                <Button onClick={handleGeneratePlan} disabled={generating} size="sm" className="rounded-xl h-7 text-xs">
-                                                    {generating ? <><Loader2 size={11} className="mr-1.5 animate-spin" />Generating…</> : "Generate New Plan"}
+                                                <Button onClick={handleGeneratePlan} disabled={generating} size="sm" className="rounded-xl h-8 px-4 text-xs font-semibold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-black border-0 shadow-[0_0_15px_rgba(249,115,22,0.4)]">
+                                                    {generating ? <><Loader2 size={13} className="mr-1.5 animate-spin text-black" />Generating…</> : "Generate New Plan"}
                                                 </Button>
                                             </div>
                                         )}
